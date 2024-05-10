@@ -74,18 +74,20 @@ const SimpleSwapPage = () => {
 
   return (
     <div className="w-full md:w-[80%] mx-auto p-4 bg-[#444] drop-shadow-lg rounded-md ">
+      
       <header className="mb-4">
         <div className="flex items-center justify-between w-full">
-          <h2 className="text-4xl font-bold mb-2">Token Swap</h2>
+          <h2 className="text-4xl font-bold mb-2">Simple Token Swap</h2>
           <Link
             href="/trade"
             className="text-4xl hover:bg-[#111] text-center rounded-lg"
           >
-            <i>📍</i>
+            <i>💡</i>
           </Link>
         </div>
+
         <p className="text-gray-300 p-2">
-          Convert your Native ETH token for our special Blossom Pollen Token
+          Convert your Native ETH token for our Yarn Ball
         </p>
       </header>
 
@@ -116,7 +118,7 @@ const SimpleSwapPage = () => {
 
         <label htmlFor="SLT" className="flex flex-col gap-2 ">
           <span className="bg-[#111] p-4 inline-block rounded-lg">
-            Blossom Pollen Token
+            Yarn Ball Token
           </span>
           <input
             type="number"

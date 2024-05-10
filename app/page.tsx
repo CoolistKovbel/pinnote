@@ -1,4 +1,8 @@
 import Image from "next/image";
+import Hero from "./component/landing/hero";
+import AboutComp from "./component/landing/about";
+import Mint from "./component/landing/mint";
+import SimpleSwapPage from "./component/simpleSwapPage";
 
 export default function Home() {
   // is holder?
@@ -46,67 +50,33 @@ export default function Home() {
       </header>
 
       {/* hero */}
-      <div className="bg-[#222] w-full h-[400px] p-2 flex items-center justify-between flex-col md:flex-row  rounded-lg p-10">
-        <header className="w-[50%] bg-[#444] p-2 rounded-lg drop-shadow">
-          <h2 className="text-3xl font-bold mb-2">Been having it rough?</h2>
-          <p className="text-[13px]">
-            If you feel like you are always in a panic and there are just so
-            many things to do, you try do everything but it like its never good
-            enough?
-          </p>
-          <p className="text-[13px]">
-            We have a chat session avaiable for NFT Holders. Are you ready to
-            mint?
-          </p>
-        </header>
+      <Hero />
 
-        <div className="w-[300px] h-[300px] relative rounded-lg drop-shadow-lg ">
-          <Image
-            src="/2.png"
-            alt="moment"
-            fill
-            className="rounded-lg drop-shadow-lg"
-          />
-        </div>
-      </div>
+      {/* about */}
+
+      <AboutComp />
 
       {/* mint */}
-      <div>
-        <header>
-          <h2>De Pinnote</h2>
-          <p>
-            With over 222 collections to choose, where you can see a possible
-            pinnote moment, get yours today and be able to gain staking rewards
-            as well as be able gain access to your own meow pal.
-          </p>
-        </header>
-
-        <div className="w-[300px] h-[300px] relative rounded-lg drop-shadow-lg ">
-          <Image
-            src="/2.png"
-            alt="moment"
-            fill
-            className="rounded-lg drop-shadow-lg"
-          />
-        </div>
-      </div>
+      <Mint />
 
       {/* swap  */}
       <div>
-        <header>
-          <h2>CatBall Token</h2>
-          <p>
-            By swapping your token for the cat ball token you will be able to be
-            able to then use your tokens to be able to either stake or use it in
-            our future store.
+
+        <header className="bg-[#222] p-4 rounded-lg mb-4">
+          <h2 className="text-4xl font-bold mb-2">YarnBall Token</h2>
+          <p className="text-lg">
+            There is a limited amount about these tokens ready for your
+            purchasing. You can either get it straight from the contract or look
+            for a better price on a dex. This token is used a reward as well as
+            to be used in our little eco system. You can send it to your freinds
+            and use it to buy certain nfts
           </p>
         </header>
 
 
+        <SimpleSwapPage />
 
       </div>
-
-      {/* about */}
     </main>
   );
 }
