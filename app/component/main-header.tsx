@@ -1,8 +1,37 @@
-import React from "react";
+"use client"
+
+import React, { useEffect, useState } from "react";
+import { userOwns } from "../lib/web3";
 
 const MainHeader = () => {
-  // is holder?
-  const isHolder = false;
+const [isHolder, setIsHolder] = useState(false)
+
+
+  const checkUserNFT = async () => {
+    try {
+
+      console.log("checking to see if user has nftt")
+      const owns = await userOwns()
+
+
+      console.log(owns)
+
+
+      if(!!owns) {
+        setIsHolder(true)
+      }
+
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
+  useEffect(() => {
+    checkUserNFT()
+  },[])
 
   return (
     <header className="bg-[#333] w-full flex items-center justify-around p-4 drop-shadow-lg rounded-lg mb-4">
@@ -16,12 +45,6 @@ const MainHeader = () => {
           className="font-bold bg-[#111] p-2 rounded-lg drop-shadow-lg hover:bg-[#222]"
         >
           home
-        </a>
-        <a
-          href="/mint"
-          className="font-bold bg-[#111] p-2 rounded-lg drop-shadow-lg hover:bg-[#222]"
-        >
-          mint
         </a>
         <a
           href="/swap"

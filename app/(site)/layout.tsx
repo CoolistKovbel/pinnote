@@ -13,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="p-5">
+    <main className="p-5">
       <MainHeader />
       {children}
-    </div>
+    </main>
   );
 }

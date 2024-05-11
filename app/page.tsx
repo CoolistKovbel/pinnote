@@ -22,15 +22,20 @@ export default function Home() {
       {/* swap  */}
       <div>
         <header className="bg-[#222] p-4 rounded-lg mb-4">
-
           <h2 className="text-4xl font-bold mb-2">YarnBall Token 🔙</h2>
           <p className="text-lg">
-            There is a limited amount about these tokens ready for your
-            purchasing. You can either get it straight from the contract or look
-            for a better price on a dex. This token is used a reward as well as
-            to be used in our little eco system. You can send it to your freinds
-            and use it to buy certain nfts
+            With over a 1 mill token supply, this token is here for the journey.
+            If you are looking to get on board get your this token for a fixed
+            price from the contract, the more you support the contract the
+            better the long run will turn out to be. This token will allow you use it in future events, as well as where it may be accepted. 
           </p>
+
+          <div className="text-center p-4 bg-[#111] drop-shadow-lg rounded-lg mt-3">
+          <p className="p-2 font-bold"> Total Supply: 100,000,000 </p>
+          <p className="p-2 font-bold"> Address: 0x3336deBc102ce50a707CF8Df8c626aB338D55539 </p>
+          <p className="p-2 font-bold"> Exchange Rate: 1 - 10000 </p>
+        </div>
+
         </header>
 
         <SimpleSwapPage />
