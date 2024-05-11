@@ -1,18 +1,22 @@
-"use client"
+"use client";
 
 import { mintNFT } from "@/app/lib/web3";
-import { useFormState } from "react-dom";
 
 const MintForm = () => {
-  const [state, dispatch] = useFormState(mintNFT, undefined);
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      console.log("handle submieet", e.target.amountOfNFTs.value);
 
-
-
-    console.log(state)
+      await mintNFT(e.target.tamountOfNFTs.value as number);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <form action={dispatch} className="text-2xl">
+    <form className="text-2xl" onSubmit={handleSubmit}>
       <input
         type="number"
         placeholder="amount of nfts"
@@ -20,7 +24,9 @@ const MintForm = () => {
         name="amountOfNFTs"
         className="w-[10%] p-3 text-black "
       />
-      <button className="p-3 bg-[#222] font-bold  hover:bg-emerald-500 bg-[#222] ml-2">mint</button>
+      <button className="p-3 bg-[#222] font-bold  hover:bg-emerald-500 bg-[#222] ml-2">
+        mint
+      </button>
     </form>
   );
 };
