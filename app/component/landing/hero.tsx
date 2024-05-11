@@ -3,9 +3,9 @@ import React from "react";
 
 const Hero = () => {
   return (
-    <div className="bg-[#222] w-full h-[400px] p-2 flex items-center justify-around flex-col md:flex-row  rounded-lg p-20">
+    <div className="bg-[#222] w-full h-full md:h-[400px] p-2 flex items-center justify-around flex-col md:flex-row rounded-lg">
       
-      <header className="w-[50%] h-full bg-[#444] p-2 rounded-lg drop-shadow flex items-center justify-center flex-col gap-3 drop-shadow-lg">
+      <header className="w-full md:w-[50%] h-full bg-[#444] p-5 rounded-lg drop-shadow flex items-center justify-center flex-col gap-3 drop-shadow-lg">
         <h2 className="text-3xl md:text-5xl font-bold mb-2">Been having it rough?</h2>
         <p className="text-[13px] md:text-[20px]">
           If you feel like you are always in a panic and there are just so many

@@ -1,13 +1,12 @@
 import { ethers } from "ethers";
-
+import tokenABI from "./tokenABI.json"
 
 // Token Contract
 export const contractTokenContract =
-  "0xfDafC18c6BeF2F153f5D0F14fdF8f0B8edc19b04";
+  "0x3336deBc102ce50a707CF8Df8c626aB338D55539";
 
-  // NFT Contract
-export const ContractNFTCollection =
-  "0xEb8556C96e176cA3458184AEA79933be154d64a2";
+  // NFT Contract /testnet
+export const ContractNFTCollection = "";
 
   
 export const getEthereumObject = () => {
@@ -86,7 +85,7 @@ export const swapToken = async (_amount: any) => {
     // Contract main
     const contractInstance = new ethers.Contract(
       contractTokenContract,
-      tokenAbs,
+      tokenABI,
       signer
     );
 
@@ -94,6 +93,8 @@ export const swapToken = async (_amount: any) => {
       value: amountInWei,
       gasLimit: 600000,
     });
+
+
   } catch (error) {
     console.log(error);
   }
