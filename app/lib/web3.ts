@@ -1,12 +1,13 @@
 import { ethers } from "ethers";
 import tokenABI from "./tokenABI.json"
 import erc721TokenAbi from "./erc721TokenAbi.json"
-// Token Contract
+
+// Token Contract - mainnet
 export const contractTokenContract =
   "0x3336deBc102ce50a707CF8Df8c626aB338D55539";
 
   // NFT Contract /testnet
-export const ContractNFTCollection = "";
+export const ContractNFTCollection = "0xE36C24D47b05037E33183570a86fb080f42f7415";
 
   
 export const getEthereumObject = () => {

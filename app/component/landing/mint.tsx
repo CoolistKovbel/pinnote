@@ -6,15 +6,13 @@ import Image from "next/image";
 
 const Mint = () => {
 
-
       const handleSubmit = async (e:any) => {
         e.preventDefault()
         try {
 
           console.log("handle submit", e.target.tradeNumber.value)
 
-          
-          await mintNFT(e.target.tradeNumber)
+          await mintNFT(e.target.tradeNumber.value)
 
           
         } catch (error) {
@@ -26,7 +24,7 @@ const Mint = () => {
   return (
     <div className="flex items-center justify-between w-full p-10 gap-4 flex flex-col">
 
-      <header className="bg-[#222] p-10 h-full w-[95%] rounded-lg drop-shadow-lg ">
+      <header className="bg-[#222] p-10 h-full w-full md:w-[95%] rounded-lg drop-shadow-lg ">
 
         <h2 className="text-4xl md:text-6xl font-bold mb-2">De Pinnote</h2>
         <p className="text-lg">
@@ -36,7 +34,7 @@ const Mint = () => {
         </p>
 
           {/* get data from contract */}
-        <div className="text-center p-4">
+        <div className="text-center p-4 bg-[#111] drop-shadow-lg rounded-lg mt-3">
           <p  className="p-2 font-bold">details: Total minted: 0 / 222 </p>
         </div>
 

@@ -3,7 +3,8 @@ import MainHeader from "../component/main-header";
 
 export const metadata: Metadata = {
   title: "PinNote",
-  description: "Be able to communicate with your nft pals or mint to earn tokens.",
+  description:
+    "Be able to communicate with your nft pals or mint to earn tokens.",
 };
 
 export default function RootLayout({
@@ -13,8 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <div className="p-5">
-        <MainHeader />
-        {children}
+      <MainHeader />
+      {children}
     </div>
   );
 }
