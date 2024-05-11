@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import tokenABI from "./tokenABI.json"
-
+import erc721TokenAbi from "./erc721TokenAbi.json"
 // Token Contract
 export const contractTokenContract =
   "0x3336deBc102ce50a707CF8Df8c626aB338D55539";
@@ -44,7 +44,7 @@ export const mintNFT = async (_amount: any) => {
   try {
     console.log("minting nft", _amount)
 
-    const amountInWei =  ethers.utils.parseEther((0.0210 * _amount).toString())
+    const amountInWei =  ethers.utils.parseEther((0.042 * _amount).toString())
 
     console.log("amountInWei", amountInWei);
 
@@ -56,7 +56,7 @@ export const mintNFT = async (_amount: any) => {
     // Contract main
     const contractInstance = new ethers.Contract(
       ContractNFTCollection,
-      dApp,
+      erc721TokenAbi,
       signer
     );
 
