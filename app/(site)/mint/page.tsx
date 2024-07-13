@@ -1,64 +1,58 @@
+import InfoSection from "@/app/components/mint/info-section";
+import MintSection from "@/app/components/mint/mint-section";
 
-import MintForm from "@/app/component/mint/mint-form";
-import Image from "next/image";
-import React from "react";
-
-
-const Page = async () => {
-
-
-
+const Page = () => {
+  const articles = [
+    {
+      title: "Manage Members",
+      description:
+        "With the token you will be able to overwatch group members making sure pins are being completed. ",
+      image: "🧑🏽‍💻",
+    },
+    {
+      title: "Earn Transaction fees",
+      description: "Get 1% of all trade fees that acure on the site",
+      image: "📊",
+    },
+    {
+      title: "Service",
+      description: "You will be able to help group members who request help. ",
+      image: "🔖",
+    },
+  ];
 
   return (
-    <section className="p-10 ">
-      <div className="flex items-center justify-between mb-20">
-        <header className=" mb-10 font-bold">
-          <h2 className="text-4xl md:text-8xl mb-2">Pinnote NFT Collection</h2>
-          <p className="text-2xl">
-            Grab your own piece of art from the pinnote collection a very
-            special piece called , Panic Kitty
-          </p>
-        </header>
+    <main className="w-full min-h-screen bg-[#111]">
+      <header className="p-10 bg-[#333] text-center md:text-left ">
+        <h1 className="text-6xl mb-2 font-bold ">PinNote Collection</h1>
+        <p className="text-lg text-gray-500">A simple collection</p>
+      </header>
 
-        {/* Carrosal */}
-        <div className="w-[300px] h-[300px] relative mx-auto">
-          <Image
-            src="/Cuploop.png"
-            alt="image nft"
-            fill
-            className="rounded-lg dropshadow-lg"
-          />
-        </div>
+      <InfoSection />
+
+      <p className="mb-2 text-center w-[80%] mx-auto text-2xl">
+        These arent just any normal ERC-721 tokens. You will not only get a
+        beutiful looking image that you will digitally own for the rest of your
+        time on the blockchain. But you will be able to unlock access to more
+        features here on the site as well as be able to earn and collect a
+        little more rewards from just holding this token.
+      </p>
+
+      <div className="w-[80%] mx-auto mt-5 pb-10 flex items-center justify-center md:justify-between gap-4 flex-wrap">
+        {articles.map((item) => (
+          <div
+            key={crypto.randomUUID()}
+            className="w-[300px] h-[300px] bg-[#444] p-2 flex items-center gap-4 text-center justify-center flex-col rounded drop-shadow-lg"
+          >
+            <i className="text-6xl">{item.image}</i>
+            <h2 className="text-2xl font-bold">{item.title}</h2>
+            <p className="text-gray-300 font-bold">{item.description}</p>
+          </div>
+        ))}
       </div>
 
-      <article>
-        <header className="flex items-center justify-between">
-          <div className="w-[50%] bg-[#222] p-10 rounded-lg">
-            <h2 className="text-4xl font-bold mb-4">JumpingKitty Collection</h2>
-            <p className="text-sm leading-6">
-              This is a collection of erc-721 tokens that allow to own a image
-              of that represents the token. With over 222 tokens each different
-              from the rest avaiable on ethereum. These nfts also come with some
-              perks and benifits such as earning rewards if you send it to a
-              mining pool and or a small communication platform where you will
-              be able to contact any other who has the erc-721 token.
-            </p>
-          </div>
-
-          <div className="w-[300px] h-[300px] relative mx-auto">
-            <Image
-              src="/67.png"
-              alt="image nft"
-              fill
-              className="rounded-lg dropshadow-lg"
-            />
-          </div>
-        </header>
-
-        <MintForm />
-       
-      </article>
-    </section>
+      <MintSection />
+    </main>
   );
 };
 

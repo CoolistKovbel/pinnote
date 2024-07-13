@@ -1,62 +1,80 @@
+import Link from "next/link";
 import React from "react";
 
 const Page = () => {
   return (
-    <main className="min-h-screen bg-[#222] p-10">
-      <header className="p-10">
-        <h2 className="text-4xl font-bold mb-2">What is Pinnote?</h2>
-        <p className="text-md">
-          The one place you can come and be able to talk to another user who
-          also has the nft. You will be able to also be able to manage your own
-          token our yarnball. This is a small token that you will be able to use
-          as a reward.
-        </p>
+    <main className="min-h-screen w-full bg-[#111]">
+      <header className="w-full p-4 bg-[#333] h-[100px] text-center">
+        <h2 className="font-bold text-4xl">About PinNote</h2>
       </header>
 
-      <div className="p-10 bg-[#222]">
-        <h2 className="text-4xl font-bold">How to get started?</h2>
-
-        <p className="text-lg">
-          All you need is a connection between your browser and the blockchain.
-          You can use metamask as your connection to the blockchain or look for
-          other extentions that provide the similar service.
-        </p>
-
-        <p className="text-lg">
-          Once you have setup your extentions be sure to keep your private and
-          recovery key safe. Be sure to write it down or store it in a place
-          where only you will be able to find or get the keys for.
-        </p>
-
-        <p className="text-lg">
-          Just remeber to only put in what you can afford to loose and not be on
-          of the people who go at things too fast.
-        </p>
-      </div>
-
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Features: </h2>
+      <section className="p-10 flex flex-col gap-10 text-xl leading-7">
         <p>
-          In <strong>Pinnote</strong> you are able to mint yourself a erc-721
-          token which is our Signature collection. At the same time you are able
-          to able to use this token to reward yourself with another token our
-          erc-20 yarnball token.
+          <strong>PinNote</strong> is a application that allows you to be able
+          to sign up and create an account with us to be able to earn rewards
+          and join groups that will challange you to work together and be able
+          to handle certain pin request that will be gernerated by clients and
+          other users.
         </p>
 
         <p>
-          There is going to be a staking pool where you will need to deposit a
-          certain amount of tokens and you will recieve rewards based upon it.
+          Your job will be to handle these <em>pins</em> with your group
+          memebers and complete the project by submitting a github repo link as
+          well as making sure that it is up and running on a test server. From
+          there you will be able to receive reward based on completion and will
+          be distrubuted amoung you and your team memebers.
         </p>
 
         <p>
-          Users who one of the NFTs will be able to participate in a group or random
-          group chat where you will be partnered with two others to be able to
-          communicate with one another.
+          You will be able to join, leave, or create a group of 5 people. <strong>Only</strong> a
+          group of 5 will be able to accept pins while. You will be receiving
+          rewards based in our native token, the EoirBall Token, you can find it
+          on{" "}
+          <Link
+            href="https://etherscan.io/token/0x3336debc102ce50a707cf8df8c626ab338d55539"
+            target="_blank"
+          >
+            etherscan
+          </Link>{" "}
+          for more details. You will be able to use this token to stake to earn
+          more, or swap with eth or other token pairs that may be created by
+          users or the offical pinnote chief.
         </p>
 
-        
+        <p>
+          For those who want to be a little more connected with out application
+          we welcome you to mint your very own signature ERC-721 token where you
+          will then be able to earn a little more rewards as well as manage and
+          maintain certain groups. You will be able to trade your token with
+          others as well as you may be revoked some privallages if you are
+          reported abusing.
+        </p>
 
-      </div>
+        <p>
+          We welcome all and want to be able to create a well rounded community
+          of developers and designers to be able to build and cooperated as a
+          team building real world applications and not being discouraged if
+          times get hard. We hope you get along with everyone in this
+          decentralized community and remeber to keep a positive mindset to
+          allow creative flow to enter our community.
+        </p>
+
+
+        <p>Be sure to stay up to date with the any latest updates that we will provide as well as follow our social where we give shoutouts to groups that completed pins as a team.</p>
+
+
+      </section>
+
+
+        {/* Social? */}
+
+        <div className="w-[50%] drop-shadow-lg mx-auto rounded p-5 bg-[firebrick] flex items-center justify-between">
+          <Link href="http://www.twitter.com" target="_blank" className="bg-[#222] p-4 hover:bg-[#000] text-2xl font-bold drop-shadow-lg rounded">Twitter</Link>
+          <Link href="http://www.twitter.com" target="_blank" className="bg-[#222] p-4 hover:bg-[#000] text-2xl font-bold drop-shadow-lg rounded">LinkedIn</Link>
+          <Link href="http://www.twitter.com" target="_blank" className="bg-[#222] p-4 hover:bg-[#000] text-2xl font-bold drop-shadow-lg rounded">Youtube</Link>
+        </div>
+
+
     </main>
   );
 };

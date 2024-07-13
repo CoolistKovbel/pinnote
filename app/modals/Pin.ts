@@ -1,0 +1,59 @@
+import mongoose from "mongoose";
+
+export interface IPin {
+  owner: string;
+  title: string;
+  description: string;
+  PinTime: number;
+  PinRate: number;
+  date: string;
+  transactionHash: string;
+
+  status: string;
+  votes: number;
+}
+
+// TODO: Make it better......
+
+const PinSchema = new mongoose.Schema<IPin>(
+  {
+    owner: {
+      type: String,
+      require: true,
+      unique: true,
+    },
+    date: {
+      type: String,
+    },
+    title: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    transactionHash: {
+      type: String || null,
+    },
+    status: {
+      type: String,
+      default: "NOTCOMPLETED",
+      enum: ["NOTCOMPLETED", "COMPLETED", "INPROGRESS"],
+    },
+    votes: {
+      type: Number,
+    },
+  },
+  { timestamps: true }
+);
+
+let PinModel: mongoose.Model<IPin>;
+
+try {
+  // Try to retrieve an existing model
+  PinModel = mongoose.model<IPin>("Pin");
+} catch (e) {
+  // If the model doesn't exist, define it
+  PinModel = mongoose.model<IPin>("Pin", PinSchema);
+}
+
+export const Pin = PinModel;
