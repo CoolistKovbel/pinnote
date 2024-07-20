@@ -1,13 +1,8 @@
-"use client"
-
-interface SinglePinSectionProps { 
-  pinGroup: any;
-}
 
 
-const SinglePinSection = ({pinGroup}: SinglePinSectionProps) => {
+const PinSection = ({ params }: { params: { id: string }}) => {
 
-  console.log("pingroup that is from the id", pinGroup)
+  console.log("pingroup that is from the id", params.id)
 
   return (
     <section className="w-full min-h-screen">
@@ -25,4 +20,4 @@ const SinglePinSection = ({pinGroup}: SinglePinSectionProps) => {
   );
 };
 
-export default SinglePinSection;
+export default PinSection;
