@@ -9,26 +9,26 @@ const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const httpServer = createServer((req, res) => {
+  const httpServer = createServer((req: any, res: any) => {
     return handler(req, res);
   });
 
   const io = new Server(httpServer);
 
-  io.on("connection", (socket) => {
+  io.on("connection", (socket: any) => {
     console.log("a user connected");
 
-    socket.on("joinRoom", (roomId) => {
+    socket.on("joinRoom", (roomId: any) => {
       socket.join(roomId);
       console.log(`User joined room: ${roomId}`);
     });
 
-    socket.on("message", ({ roomId, message }) => {
+    socket.on("message", ({ roomId, message }: any) => {
       console.log("message:", message);
       io.to(roomId).emit("message", message);
     });
 
-    socket.on("newEvent", (data) => {
+    socket.on("newEvent", (data: any) => {
       console.log("newEvent received:", data);
       io.emit("newEvent", data);
     });
@@ -38,7 +38,7 @@ app.prepare().then(() => {
     });
   });
 
-  httpServer.once("error", (err) => {
+  httpServer.once("error", (err: any) => {
     console.error(err);
     process.exit(1);
   });
