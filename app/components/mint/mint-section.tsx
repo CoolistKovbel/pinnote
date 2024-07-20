@@ -85,6 +85,7 @@ const MintSection = () => {
           <button className="bg-[#222] font-bold rounded p-4">Mint</button>
         </form>
       </div>
+      
     </section>
   );
 };

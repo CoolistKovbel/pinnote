@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import nftJasn from "./nftab.json";
-import tokenAbi from "./tokenAbi.json"
 
 export const nftSmartContract = "0x62F38d44fB243C3C98B23636074414ED53ecBB1E";
 export const tokenSmartContract = "0x3336debc102ce50a707cf8df8c626ab338d55539";
@@ -43,139 +42,139 @@ export const getEthereumAccount = async () => {
 
 // Approve contract token user erc + erc20
 
-export const mintNFT = async (_amount: any) => {
-  try {
-    console.log("minting nft");
-    // const amountInWei = ethers.utils.parseEther((0.024 * _amount).toString());
-    const amountInWei = ethers.utils.parseEther((0.00042 * _amount).toString());
+// export const mintNFT = async (_amount: any) => {
+//   try {
+//     console.log("minting nft");
+//     // const amountInWei = ethers.utils.parseEther((0.024 * _amount).toString());
+//     const amountInWei = ethers.utils.parseEther((0.00042 * _amount).toString());
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // Get the signer
-    const signer = provider.getSigner();
+//     const provider = new ethers.providers.Web3Provider(window.ethereum);
+//     // Get the signer
+//     const signer = provider.getSigner();
 
-    // Contract main
-    const contractInstance = new ethers.Contract(
-      testERC721Contract,
-      nftJasn,
-      signer
-    );
+//     // Contract main
+//     const contractInstance = new ethers.Contract(
+//       testERC721Contract,
+//       nftJasn,
+//       signer
+//     );
 
-    await contractInstance.mint(_amount, {
-      value: amountInWei,
-      gasLimit: 600000,
-    });
-
-
-    return "success"
+//     await contractInstance.mint(_amount, {
+//       value: amountInWei,
+//       gasLimit: 600000,
+//     });
 
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     return "success"
 
-export const swapToken = async (_amount: any) => {
-  try {
-    console.log("swapping token");
 
-    // Convert the input amount to a BigNumber object
-    const amountInWei = ethers.utils.parseEther(_amount.toString());
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // Get the signer
-    const signer = provider.getSigner();
+// export const swapToken = async (_amount: any) => {
+//   try {
+//     console.log("swapping token");
 
-    // Contract main
-    const contractInstance = new ethers.Contract(
-      testERC20Contract,
-      tokenAbi,
-      signer
-    );
+//     // Convert the input amount to a BigNumber object
+//     const amountInWei = ethers.utils.parseEther(_amount.toString());
 
-    await contractInstance.swapEtherForTokens({
-      value: amountInWei,
-      gasLimit: 600000,
-    });
+//     const provider = new ethers.providers.Web3Provider(window.ethereum);
+//     // Get the signer
+//     const signer = provider.getSigner();
 
-    return "success"
+//     // Contract main
+//     const contractInstance = new ethers.Contract(
+//       testERC20Contract,
+//       tokenAbi,
+//       signer
+//     );
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     await contractInstance.swapEtherForTokens({
+//       value: amountInWei,
+//       gasLimit: 600000,
+//     });
 
-export const getContractDetails = async () => {
-  console.log("getting contract details");
-  try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // Get the signer
-    const signer = provider.getSigner();
+//     return "success"
 
-    // Contract main
-    const contractInstance = new ethers.Contract(
-      nftSmartContract,
-      nftJasn,
-      signer
-    );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-    const tokenSupply = await contractInstance.callStatic.tokenSupply();
-    const tokenSymbol = await contractInstance.callStatic.symbol();
+// export const getContractDetails = async () => {
+//   console.log("getting contract details");
+//   try {
+//     const provider = new ethers.providers.Web3Provider(window.ethereum);
+//     // Get the signer
+//     const signer = provider.getSigner();
 
-    const payload = {
-      tokenSupply,
-      tokenSymbol,
-    };
+//     // Contract main
+//     const contractInstance = new ethers.Contract(
+//       nftSmartContract,
+//       nftJasn,
+//       signer
+//     );
 
-    return {
-      status: "success",
-      payload: payload,
-    };
-  } catch (error) {
-    console.log("Error getting contract details", error);
-    return {
-      status: "error",
-      payload: error,
-    };
-  }
-};
+//     const tokenSupply = await contractInstance.callStatic.tokenSupply();
+//     const tokenSymbol = await contractInstance.callStatic.symbol();
 
-export const getContractDetailsForERC20 = async () => {
-  console.log("handling contract erc20 token details");
-  try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // Get the signer
-    const signer = provider.getSigner();
+//     const payload = {
+//       tokenSupply,
+//       tokenSymbol,
+//     };
 
-    // Contract main
-    const contractInstance = new ethers.Contract(
-      tokenSmartContract,
-      tokenAbi,
-      signer
-    );
+//     return {
+//       status: "success",
+//       payload: payload,
+//     };
+//   } catch (error) {
+//     console.log("Error getting contract details", error);
+//     return {
+//       status: "error",
+//       payload: error,
+//     };
+//   }
+// };
 
-    const annualInterest = Number(
-      await contractInstance.callStatic.annualInterest()
-    );
-    const tokenSymbol = await contractInstance.callStatic.symbol();
-    const tokenPerEth = Number(await contractInstance.callStatic.tokenPerEth());
-    const tokenName = await contractInstance.callStatic.name();
+// export const getContractDetailsForERC20 = async () => {
+//   console.log("handling contract erc20 token details");
+//   try {
+//     const provider = new ethers.providers.Web3Provider(window.ethereum);
+//     // Get the signer
+//     const signer = provider.getSigner();
 
-    const payload = {
-      annualInterest,
-      tokenSymbol,
-      tokenPerEth,
-      tokenName,
-    };
+//     // Contract main
+//     const contractInstance = new ethers.Contract(
+//       tokenSmartContract,
+//       tokenAbi,
+//       signer
+//     );
 
-    return {
-      status: "success",
-      payload: payload,
-    };
-  } catch (error) {
-    console.log("error getting erc20 contract details", error);
-    return {
-      status: "error",
-      payload: error,
-    };
-  }
-};
+//     const annualInterest = Number(
+//       await contractInstance.callStatic.annualInterest()
+//     );
+//     const tokenSymbol = await contractInstance.callStatic.symbol();
+//     const tokenPerEth = Number(await contractInstance.callStatic.tokenPerEth());
+//     const tokenName = await contractInstance.callStatic.name();
+
+//     const payload = {
+//       annualInterest,
+//       tokenSymbol,
+//       tokenPerEth,
+//       tokenName,
+//     };
+
+//     return {
+//       status: "success",
+//       payload: payload,
+//     };
+//   } catch (error) {
+//     console.log("error getting erc20 contract details", error);
+//     return {
+//       status: "error",
+//       payload: error,
+//     };
+//   }
+// };
