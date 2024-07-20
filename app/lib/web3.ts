@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import nftJasn from "./nftab.json";
+import tokenAbi from "./tokenAbi.json"
 
 export const nftSmartContract = "0x62F38d44fB243C3C98B23636074414ED53ecBB1E";
 export const tokenSmartContract = "0x3336debc102ce50a707cf8df8c626ab338d55539";
