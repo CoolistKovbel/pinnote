@@ -1,6 +1,6 @@
 "use client";
 
-import { getContractDetailsForERC20, swapToken } from "@/app/lib/web3";
+// import { getContractDetailsForERC20, swapToken } from "@/app/lib/web3";
 import { ethers } from "ethers";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,10 +32,10 @@ const ERCToken = () => {
     const form = e.target as HTMLFormElement
     try {
       toast(`Swapping eth for ${e.target.tokenAmount.value} tokens`);
-      const gg = await swapToken(e.target.tokenAmount.value);
-      if(gg === "success"){
-        toast(`eth swap succefully for ${e.target.tokenAmount.value} tokens`);
-      }
+      // const gg = await swapToken(e.target.tokenAmount.value);
+      // if(gg === "success"){
+      //   toast(`eth swap succefully for ${e.target.tokenAmount.value} tokens`);
+      // }
       form.reset()
     } catch (error) {
       console.log(error);
@@ -43,17 +43,17 @@ const ERCToken = () => {
     }
   };
 
-  useEffect(() => {
-    const gg = async () => {
-      const res = await getContractDetailsForERC20();
+  // useEffect(() => {
+  //   const gg = async () => {
+  //     const res = await getContractDetailsForERC20();
 
-      if (res.status === "success") {
-        setContractDetails(res.payload);
-      }
-    };
+  //     if (res.status === "success") {
+  //       setContractDetails(res.payload);
+  //     }
+  //   };
 
-    gg();
-  }, []);
+  //   gg();
+  // }, []);
 
   return (
     <div className="bg-[#111] p-10 flex items-center justify-around ">

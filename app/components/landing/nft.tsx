@@ -1,6 +1,6 @@
 "use client";
 
-import { getContractDetails, mintNFT } from "@/app/lib/web3";
+// import { getContractDetails, mintNFT } from "@/app/lib/web3";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -16,10 +16,10 @@ const NftColSec = () => {
       console.log("handling nft minting process", e.target.tokenAmount.value);
 
       toast(`minting ${e.target.tokenAmount.value} erc-721 token`)
-      const respo = await mintNFT(e.target.tokenAmount.value);
-      if(respo === "success") {
-        toast(`successfully ${e.target.tokenAmount.value} erc-721 token`)
-      }
+      // const respo = await mintNFT(e.target.tokenAmount.value);
+      // if(respo === "success") {
+      //   toast(`successfully ${e.target.tokenAmount.value} erc-721 token`)
+      // }
 
       form.reset()
     } catch (error) {
@@ -30,17 +30,17 @@ const NftColSec = () => {
 
   // Grab  the nft collection details and plug it into here...
 
-  useEffect(() => {
-    const gg = async () => {
-      const details = await getContractDetails();
+  // useEffect(() => {
+  //   const gg = async () => {
+  //     const details = await getContractDetails();
 
-      if (details.status === "success") {
-        setContractDetails(details.payload);
-      }
-    };
+  //     if (details.status === "success") {
+  //       setContractDetails(details.payload);
+  //     }
+  //   };
 
-    gg();
-  }, [contractDetails.tokenSupply]);
+  //   gg();
+  // }, [contractDetails.tokenSupply]);
 
   return (
     <div className="bg-[#000] rounded-lg drop-shadow-lg">
