@@ -383,12 +383,19 @@ export const HandlePinCreate = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
   try {
     await dbConnect();
+    console.log("setting up pin")
+
+    console.log(data);
 
     const ping = new Pin({
       title: data.title,
       description: data.description,
       date: new Date(),
-    });
+    });  
+
+    await ping.save();
+
+    revalidatePath("/pin");
 
     return {
       status: "success",

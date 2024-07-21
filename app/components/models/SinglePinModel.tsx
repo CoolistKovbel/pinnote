@@ -3,7 +3,7 @@
 import { useModal } from "@/app/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
 import { ethers } from "ethers";
-import { handleGroupCreate } from "@/app/lib/action";
+import { HandlePinCreate } from "@/app/lib/action";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -30,10 +30,10 @@ const CreateSinglePinModel = () => {
 
       formData.append("signature", signature);
       formData.append("userId", fm as string);
-      formData.append("groupImage", groupImage as File);
+      formData.append("pinImage", groupImage as File);
 
       const form = e.target as HTMLFormElement;
-      const res = await handleGroupCreate(formData);
+      const res = await HandlePinCreate(formData);
 
       if (res.status === "success") {
 
@@ -90,7 +90,7 @@ const CreateSinglePinModel = () => {
           </label>
 
           <label className="block mb-2" htmlFor="pinDescription">
-            <span>Group Description: </span>
+            <span>Pin Description: </span>
             <input
               type="text"
               name="pinDescription"
@@ -103,8 +103,8 @@ const CreateSinglePinModel = () => {
             <span>Pin Photo: </span>
             <input
               type="file"
-              name="groupImage"
-              id="groupImage"
+              name="pinImage"
+              id="pinImage"
               onChange={(e) =>
                 setGroupImage(e.target.files ? e.target.files[0] : null)
               }
