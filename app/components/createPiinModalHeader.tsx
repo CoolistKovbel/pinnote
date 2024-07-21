@@ -150,9 +150,10 @@ const CreatePinModelHeader = ({ user, pins, userGroup }: CreatePinModelHeaderPro
       </div>
 
       <section className="w-full flex items-center flex-wrap h-[800px] gap-5 overflow-auto justify-around p-5">
-        <div className="flex items-center flex-wrap justify-between w-full">
-          {serverPins && 
-            serverPins?.payload?.map((item: any) => (
+
+        <div className="flex items-center flex-wrap justify-between w-full gap-5">
+          {
+            availblePins.map((item: any) => (
               <div
                 key={crypto.randomUUID()}
                 className="w-[300px] h-[300px] p-2 bg-[#333] drop-shadow-lg rounded flex flex-col items-center justify-between"
@@ -182,7 +183,7 @@ const CreatePinModelHeader = ({ user, pins, userGroup }: CreatePinModelHeaderPro
                       <span>{moment(item.date).format("MMMM Do YYYY")}</span>
                     </p>
                   </div>
-
+{/* 
                   <div className="w-[50%] p-1 bg-[#555]">
 
                     <div className="flex items-center gap-4 flex-col">
@@ -214,7 +215,9 @@ const CreatePinModelHeader = ({ user, pins, userGroup }: CreatePinModelHeaderPro
 
                     </div>
 
-                  </div>
+                  </div> */}
+
+
                 </div>
               </div>
             ))}
