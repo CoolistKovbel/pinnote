@@ -10,7 +10,7 @@ export interface IPin {
   transactionHash: string;
 
   status: string;
-  votes: number;
+  votes: any;
 }
 
 // TODO: Make it better......
@@ -39,9 +39,12 @@ const PinSchema = new mongoose.Schema<IPin>(
       default: "NOTCOMPLETED",
       enum: ["NOTCOMPLETED", "COMPLETED", "INPROGRESS"],
     },
-    votes: {
-      type: Number,
-    },
+    votes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -113,7 +113,7 @@ const Page = async () => {
 
       <ProfileSection
         user={user}
-        pinGroupValid={pinGroupValid}
+        pinGroupValid={JSON.stringify(pinGroupValid)}
         recentGroupPins={recentGroupPins}
         recentSidePins={recentSidePins}
       />

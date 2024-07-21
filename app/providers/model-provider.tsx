@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import AuthUserModel from "../components/models/AuthUserModel";
 import CreateGroupModel from "../components/models/CreateGroupModel";
 import GroupMessageModal from "../components/models/GroupMessageModal";
+import CreateSinglePinModel from "../components/models/SinglePinModel";
 
 
 export const  ModalProvider = () => {
@@ -22,6 +23,7 @@ export const  ModalProvider = () => {
       <AuthUserModel />
       <CreateGroupModel />
       <GroupMessageModal />
+      <CreateSinglePinModel />
     </>
   );
 };

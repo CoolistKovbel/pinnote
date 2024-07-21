@@ -1,6 +1,6 @@
 "use client";
 
-// import { getContractDetails, mintNFT } from "@/app/lib/web3";
+import { getContractDetails, mintNFT } from "@/app/lib/web3";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -15,24 +15,24 @@ const MintSection = () => {
 
       const amount = e.target.amountMinted.value;
 
-      // await mintNFT(amount);
+      await mintNFT(amount);
 
     } catch (error) {
       console.log("Error ahdnling mint", error);
     }
   };
 
-  // useEffect(() => {
-  //   const gg = async () => {
-  //     const res = await getContractDetails();
+  useEffect(() => {
+    const gg = async () => {
+      const res = await getContractDetails();
 
-  //     if (res.status === "success") {
-  //       setContractDetails(res.payload);
-  //     }
-  //   };
+      if (res.status === "success") {
+        setContractDetails(res.payload);
+      }
+    };
 
-  //   gg();
-  // }, []);
+    gg();
+  }, []);
 
   return (
     <section className="p-10 bg-[#666]">

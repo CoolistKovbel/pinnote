@@ -1,7 +1,7 @@
 
 import { create } from "zustand";
 
-export type ModalType = "AuthUser" | "CreateGroup" | "GroupMessageModal"
+export type ModalType = "AuthUser" | "CreateGroup" | "GroupMessageModal" | "CreatePin"
 
 interface ModalData {
   channel?: any;

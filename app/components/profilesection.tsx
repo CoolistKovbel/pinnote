@@ -20,6 +20,7 @@ const ProfileSection = ({
   id,
 }: ProfileSectionProp) => {
   const { onOpen } = useModal();
+  const pinGroup = JSON.parse(pinGroupValid)
 
   const handleCreateGroup = async () => {
     try {
@@ -29,7 +30,7 @@ const ProfileSection = ({
     } catch (error) {
       console.log("Error creating group", error);
     }
-  };
+  }; 
 
   // ===========================
 
@@ -48,7 +49,7 @@ const ProfileSection = ({
     }
   };
 
-  console.log(pinGroupValid?.payload?.image, "wbat this ");
+  console.log(pinGroup?.payload?.image, "wbat this ");
 
   return (
     <section className="p-6 w-full">
@@ -98,6 +99,7 @@ const ProfileSection = ({
 
         {/* user group profile */}
         <div className="w-full md:w-1/2 mt-6 md:mt-0">
+
           <div className="w-full flex flex-col gap-4">
             <div className="bg-[#222] p-4 rounded-lg">
               <h3 className="flex items-center justify-between">
@@ -119,7 +121,7 @@ const ProfileSection = ({
           </div>
 
           <div className="mt-4 flex items-center gap-4 w-full justify-between">
-            {pinGroupValid.payload === null ? (
+            {pinGroup.payload === null ? (
               <div>
                 <h2>Sorry, no group</h2>
                 <button
@@ -131,22 +133,22 @@ const ProfileSection = ({
               </div>
             ) : (
               <Link
-                href={`/pin/group/${pinGroupValid._id}`}
+                href={`/pin/group/${pinGroup._id}`}
                 className="flex items-center gap-2"
               >
                 <div className="w-[100px] h-[100px] relative rounded-lg overflow-hidden">
                   <Image
-                    src={`/${pinGroupValid?.payload?.image}`}
-                    alt={pinGroupValid.groupDescription}
+                    src={`${pinGroup?.payload?.image}`}
+                    alt={pinGroup.groupDescription}
                     fill
                   />
                 </div>
                 <p className="flex flex-col gap-4 items-center">
                   <span className="p-2 font-bold rounded text-center">
-                    {pinGroupValid.payload.groupName}
+                    {pinGroup.payload.groupName}
                   </span>
                   <Link
-                    href={`/pin/group/${pinGroupValid.payload._id}`}
+                    href={`/pin/group/${pinGroup.payload._id}`}
                     className="p-2 bg-[#222] rounded"
                   >
                     View
@@ -164,6 +166,7 @@ const ProfileSection = ({
               </Link>
             </div>
           </div>
+
         </div>
       </header>
 
@@ -172,7 +175,7 @@ const ProfileSection = ({
           Recent Group Pins:
         </h2>
 
-        {pinGroupValid.payload === null ? (
+        {pinGroup.payload === null ? (
           <div className="flex flex-col items-center justify-center gap-6">
             <h2 className="text-4xl capitalize">Sorry there are no pins</h2>
             <p className="text-2xl font-bold">Create or join a group</p>

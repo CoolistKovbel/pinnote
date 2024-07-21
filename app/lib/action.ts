@@ -11,6 +11,7 @@ import { PinGroup } from "../modals/PinGroup";
 import { Types } from "mongoose";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
+import { Pin } from "../modals/Pin";
 
 const hadleImageUpload = async (image: any) => {
   const fileBuffer = await (image as File).arrayBuffer();
@@ -49,8 +50,11 @@ export async function ContactEmail(
 }
 
 export const getSession = async () => {
-  const cookieStore:any = cookies();
-  const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
+  const cookieStore: any = cookies();
+  const session = await getIronSession<SessionData>(
+    cookieStore,
+    sessionOptions
+  );
 
   if (!session.isLoggedIn) {
     session.isLoggedIn = defaultSession.isLoggedIn;
@@ -333,15 +337,16 @@ export const handleGroupCreate = async (userInpute: FormData) => {
       status: "success",
       payload: newGroup,
     };
-  } catch (error:any) {
+  } catch (error: any) {
     console.log("Error creating group", error);
 
     // Extract a meaningful error message
     let errorMessage = "An unknown error occurred";
 
     if (error.code === 11000) {
-      errorMessage = `Duplicate error, group exists ${JSON.stringify(error.keyValue)}`;
-
+      errorMessage = `Duplicate error, group exists ${JSON.stringify(
+        error.keyValue
+      )}`;
     } else if (error.message) {
       errorMessage = error.message;
     }
@@ -366,6 +371,31 @@ export const getPinGroupByID = async (pinGroupId: string) => {
       payload: pinGroupdetails,
     };
   } catch (error) {
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
+
+// handlepin create
+export const HandlePinCreate = async (formData: FormData) => {
+  const data = Object.fromEntries(formData);
+  try {
+    await dbConnect();
+
+    const ping = new Pin({
+      title: data.title,
+      description: data.description,
+      date: new Date(),
+    });
+
+    return {
+      status: "success",
+      payload: "",
+    };
+  } catch (error) {
+    console.log("error", error);
     return {
       status: "error",
       payload: error,

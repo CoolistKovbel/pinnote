@@ -7,7 +7,7 @@ interface SinglePinSectionProps {
 
 const SinglePinSection = ({pinGroup}: SinglePinSectionProps) => {
 
-  console.log("pingroup that is from the id", pinGroup)
+  console.log("pingroup that is from the id", JSON.parse(pinGroup))
 
   return (
     <section className="">
