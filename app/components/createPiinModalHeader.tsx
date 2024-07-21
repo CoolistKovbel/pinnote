@@ -22,8 +22,8 @@ const CreatePinModelHeader = ({
   const { onOpen } = useModal();
 
   const [searchPinSet, setSeatchPin] = useState<[]>([]);
-  const pinsnotes = JSON.parse(pins);
-  const group = JSON.parse(userGroup);
+  const pinsnotes = JSON.parse(pins).payload;
+  const group = JSON.parse(userGroup).payload;
 
   const availblePins: any = [
     {
@@ -86,7 +86,8 @@ const CreatePinModelHeader = ({
     },
   ];
 
-
+  console.log("hanlding pins", pinsnotes)
+  console.log("group", group)
 
   const createPin = () => {
     onOpen("CreatePin", user.userId);
@@ -157,6 +158,7 @@ const CreatePinModelHeader = ({
           >
             click
           </button>
+          
         </div>
 
       </div>
@@ -164,8 +166,8 @@ const CreatePinModelHeader = ({
       <section className="w-full flex items-center flex-wrap h-[800px] gap-5 overflow-auto justify-around p-5">
 
         <div className="flex items-center flex-wrap justify-between w-full gap-5">
-          {/* {
-             pinsnotes?.map((item: any) => (
+           {
+             pinsnotes.map((item: any) => (
               <div
                 key={crypto.randomUUID()}
                 className="w-[300px] h-[300px] p-2 bg-[#333] drop-shadow-lg rounded flex flex-col items-center justify-between"
@@ -203,7 +205,7 @@ const CreatePinModelHeader = ({
 
                       <Link href={`/profile/${item.owner?._id}`}>
                         <Image
-                          src={item.owner?.image}
+                          src={item.owner?.image && "/3.png"}
                           alt="owner"
                           width={32}
                           height={32}
@@ -213,7 +215,7 @@ const CreatePinModelHeader = ({
                         </p>
                       </Link>
 
-                      <Link href={`/pin/group/${item._id}`}>
+                      {/* <Link href={`/pin/group/${item._id}`}>
                         <Image
                           src={group.payload.image}
                           alt="owner"
@@ -224,7 +226,7 @@ const CreatePinModelHeader = ({
                           {group.payload.groupName}
                         </p>
                         
-                      </Link>
+                      </Link> */}
 
                     </div>
 
@@ -232,7 +234,7 @@ const CreatePinModelHeader = ({
 
                 </div>
               </div>
-            ))} */}
+            ))} 
         </div>
 
       </section>

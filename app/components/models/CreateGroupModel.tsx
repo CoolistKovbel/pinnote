@@ -37,12 +37,14 @@ const CreateGroupModel = (params: {}) => {
       const form = e.target as HTMLFormElement;
       const res = await handleGroupCreate(formData);
 
+
       if (res.status === "success") {
         console.log(res.payload);
 
         router.refresh();
       }
 
+      
       if (res.status === "error") {
         toast(`${JSON.stringify(res.payload)}`);
       }
@@ -56,8 +58,6 @@ const CreateGroupModel = (params: {}) => {
       console.log(error, "there is an error");
     }
   };
-
-  console.log(params)
 
   return (
     <div
@@ -74,6 +74,7 @@ const CreateGroupModel = (params: {}) => {
         open={isModalOpen}
         className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
+         
         <form onSubmit={onSubmit}>
           <header className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Create You Own Group</h2>
@@ -132,7 +133,9 @@ const CreateGroupModel = (params: {}) => {
             </button>
           </div>
         </form>
+
       </dialog>
+
     </div>
   );
 };

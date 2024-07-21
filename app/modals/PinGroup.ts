@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Pin } from "./Pin";
+import { User } from "./User";
 
 export interface IPinGroup {
   groupName: string;
@@ -7,7 +8,7 @@ export interface IPinGroup {
   image: string;
   isPro: boolean;
   groupMemebers: any;
-  owner: string;
+  owner: any;
   // -----
   recentPin: any;
   completedPins: any;
@@ -33,8 +34,9 @@ const PinGroupSchema = new mongoose.Schema<IPinGroup>(
         ref: Pin,
       },
     ],
-    owner: {
-      type: String,
+    owner:  {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
     },
     groupDescription: {
       type: String,

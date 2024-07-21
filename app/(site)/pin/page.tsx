@@ -6,13 +6,11 @@ import {
 } from "@/app/lib/action";
 
 const Page = async () => {
+  
   const user = await getSession();
   const res: any = await HandleGetAllPins();
   const pinGroupValid: any = await userPinGroupCheck();
 
-
-  console.log(res, "user res")
-  console.log(pinGroupValid, "user pin group valid")
 
 
   return (

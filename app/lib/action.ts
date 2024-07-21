@@ -290,14 +290,10 @@ export const userPinGroupCheck = async () => {
   try {
     await dbConnect();
 
-    const pinGroup = await PinGroup.findOne({
-      groupMemebers: user.userId,
-    })
-      .populate("groupMemebers")
-      .lean();
+    const pinGroup = await PinGroup.find({})
 
-    console.log(pinGroup, "the current users group");
-
+    // console.log(pinGroup.groupMembers, "the current users in  group");
+// 
     return {
       status: "success",
       payload: pinGroup,
@@ -413,14 +409,12 @@ export const HandlePinCreate = async (formData: FormData) => {
   }
 };
 
+// Handling all pins
 export const HandleGetAllPins = async () => {
   try {
     await dbConnect();
 
-    const allPins = await Pin.find({})
-      .populate("owner")
-      .populate("pinGroup")
-      .lean();
+    const allPins = await Pin.find({}).populate("owner").lean()
 
     console.log(allPins, "All the pins");
 
