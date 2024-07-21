@@ -7,7 +7,7 @@ import { handleGroupCreate } from "@/app/lib/action";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const CreateGroupModel = () => {
+const CreateGroupModel = (params: {}) => {
   const { isOpen, onClose, type, signature } = useModal();
   const [groupImage, setGroupImage] = useState<File | null>(null);
   const fm = signature;
@@ -17,7 +17,9 @@ const CreateGroupModel = () => {
   const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const message = `You are the owner and creating this group`;
+    const message = `
+      pin# ${crypto.randomUUID()})}
+    `;
     e.preventDefault();
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -26,8 +28,9 @@ const CreateGroupModel = () => {
 
     try {
       const signature = await signer.signMessage(message);
-
       formData.append("signature", signature);
+
+
       formData.append("userId", fm as string);
       formData.append("groupImage", groupImage as File);
 
@@ -35,23 +38,26 @@ const CreateGroupModel = () => {
       const res = await handleGroupCreate(formData);
 
       if (res.status === "success") {
-        console.log(res.payload)
+        console.log(res.payload);
 
         router.refresh();
       }
 
-      if(res.status === "error"){
-        toast(`${JSON.stringify(res.payload)}`)
+      if (res.status === "error") {
+        toast(`${JSON.stringify(res.payload)}`);
       }
 
       router.refresh();
       form.reset();
+
       onClose();
-    } catch (error:any) {
-      console.log(error ,"there is an error");
-   
+      
+    } catch (error: any) {
+      console.log(error, "there is an error");
     }
   };
+
+  console.log(params)
 
   return (
     <div
@@ -68,7 +74,6 @@ const CreateGroupModel = () => {
         open={isModalOpen}
         className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
-
         <form onSubmit={onSubmit}>
           <header className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Create You Own Group</h2>
@@ -127,7 +132,6 @@ const CreateGroupModel = () => {
             </button>
           </div>
         </form>
-
       </dialog>
     </div>
   );

@@ -91,15 +91,15 @@ const Page = async () => {
     },
   ];
 
-  console.log(pinGroupValid.payload, "what is this doing ");
-  console.log(pinGroupValid, "what is this doing ");
+
 
   return (
     <main className="w-full min-h-screen bg-[#111] text-white">
+
       <header className="p-4 bg-gray-900 flex items-center justify-between">
         <h2 className="text-3xl font-bold">Profile Page</h2>
 
-        <nav className="w-[25%] flex items-center justify-around">
+        <nav className="w-[40%] flex items-center justify-around">
           <GroupNotifactionMessage />
 
           <Link
@@ -109,7 +109,10 @@ const Page = async () => {
             Update Profile
           </Link>
         </nav>
+
       </header>
+
+      
 
       <ProfileSection
         user={user}
@@ -117,6 +120,8 @@ const Page = async () => {
         recentGroupPins={recentGroupPins}
         recentSidePins={recentSidePins}
       />
+
+
     </main>
   );
 };

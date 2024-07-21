@@ -286,10 +286,9 @@ export const getAllPinGroups = async () => {
 export const userPinGroupCheck = async () => {
   console.log("checking to see if user is in a pingroup");
   const user = await getSession();
+
   try {
     await dbConnect();
-
-    console.log(user.userId as Types.ObjectId);
 
     const pinGroup = await PinGroup.findOne({
       groupMemebers: user.userId,
@@ -312,10 +311,12 @@ export const userPinGroupCheck = async () => {
   }
 };
 
-// handle group create
+// handle group create in pin point
 export const handleGroupCreate = async (userInpute: FormData) => {
   console.log("Creating a group");
   const data = Object.fromEntries(userInpute);
+
+  // 
 
   try {
     await dbConnect();
@@ -331,12 +332,13 @@ export const handleGroupCreate = async (userInpute: FormData) => {
 
     await newGroup.save();
 
-    revalidatePath("/profile");
+    revalidatePath("/");
 
     return {
       status: "success",
       payload: newGroup,
     };
+
   } catch (error: any) {
     console.log("Error creating group", error);
 
@@ -415,9 +417,12 @@ export const HandleGetAllPins = async () => {
   try {
     await dbConnect();
 
-    const allPins = await Pin.find({}).populate("owner").populate("pinGroup").lean();
+    const allPins = await Pin.find({})
+      .populate("owner")
+      .populate("pinGroup")
+      .lean();
 
-    console.log(allPins);
+    console.log(allPins, "All the pins");
 
     return {
       status: "success",
@@ -431,8 +436,6 @@ export const HandleGetAllPins = async () => {
     };
   }
 };
-
-
 
 // update pin vote
 export const HandlePinVote = async (dbId: string, userId: string) => {

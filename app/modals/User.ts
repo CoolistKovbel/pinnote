@@ -11,7 +11,6 @@ export interface IUser {
   metaAddress: string;
   sig: string;
   description: string;
-  pinGroup: any;
 }
 
 // TODO: Make it better......
@@ -53,10 +52,6 @@ const UserSchema = new mongoose.Schema<IUser>(
     isPro: {
       type: Boolean,
       default: false,
-    },
-    pinGroup: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Pin",
     },
   },
   { timestamps: true }

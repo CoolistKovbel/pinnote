@@ -49,10 +49,9 @@ const ProfileSection = ({
     }
   };
 
-  console.log(pinGroup?.payload?.image, "wbat this ");
-
   return (
     <section className="p-6 w-full">
+
       <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
         {/* user profile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start md:flex-row">
@@ -249,6 +248,8 @@ const ProfileSection = ({
           ))}
         </div>
       </article>
+
+      
     </section>
   );
 };

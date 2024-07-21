@@ -1,6 +1,5 @@
 "use client";
 
-import moment from "moment"
 
 import { useModal } from "@/app/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
@@ -10,6 +9,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 const CreateSinglePinModel = () => {
+  
   const { isOpen, onClose, type, signature } = useModal();
   const [groupImage, setGroupImage] = useState<File | null>(null);
   const fm = signature;
@@ -19,9 +19,11 @@ const CreateSinglePinModel = () => {
   const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     const message = `
-      You are the owner and creating this pin ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}
+      pin# ${crypto.randomUUID()})}
     `;
+    
     e.preventDefault();
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -56,6 +58,8 @@ const CreateSinglePinModel = () => {
     }
   };
 
+  
+
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center ${
@@ -71,7 +75,9 @@ const CreateSinglePinModel = () => {
         open={isModalOpen}
         className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
+
         <form onSubmit={onSubmit}>
+
           <header className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Create a Pin</h2>
             <p className="text-gray-800">
@@ -128,7 +134,9 @@ const CreateSinglePinModel = () => {
               Close
             </button>
           </div>
+
         </form>
+
       </dialog>
     </div>
   );

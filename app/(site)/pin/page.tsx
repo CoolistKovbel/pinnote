@@ -1,10 +1,19 @@
 import CreatePinModelHeader from "@/app/components/createPiinModalHeader";
-import { HandleGetAllPins, getSession, userPinGroupCheck } from "@/app/lib/action";
+import {
+  HandleGetAllPins,
+  getSession,
+  userPinGroupCheck,
+} from "@/app/lib/action";
 
 const Page = async () => {
   const user = await getSession();
-  const res:any = await HandleGetAllPins()
+  const res: any = await HandleGetAllPins();
   const pinGroupValid: any = await userPinGroupCheck();
+
+
+  console.log(res, "user res")
+  console.log(pinGroupValid, "user pin group valid")
+
 
   return (
     <main className="w-full min-h-screen bg-[#111] ">
@@ -18,7 +27,12 @@ const Page = async () => {
         </p>
       </header>
 
-      <CreatePinModelHeader user={user} pins={JSON.stringify(res)} userGroup={JSON.stringify(pinGroupValid)} />
+      <CreatePinModelHeader
+        user={user}
+        pins={JSON.stringify(res)}
+        userGroup={JSON.stringify(pinGroupValid)}                                       
+      />
+
     </main>
   );
 };
