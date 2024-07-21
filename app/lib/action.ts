@@ -383,15 +383,17 @@ export const HandlePinCreate = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
   try {
     await dbConnect();
-    console.log("setting up pin")
+    console.log("setting up pin");
 
     console.log(data);
 
     const ping = new Pin({
-      title: data.title,
-      description: data.description,
+      owner: data.userId,
+      title: data.pinName,
+      description: data.pinDescription,
+      pinCreationSigantion: data.signature,
       date: new Date(),
-    });  
+    });
 
     await ping.save();
 
@@ -399,10 +401,55 @@ export const HandlePinCreate = async (formData: FormData) => {
 
     return {
       status: "success",
-      payload: "",
+      payload: ping,
     };
   } catch (error) {
     console.log("error", error);
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
+
+export const HandleGetAllPins = async () => {
+  try {
+    await dbConnect();
+
+    const allPins = await Pin.find({}).lean();
+
+    console.log(allPins);
+
+    return {
+      status: "success",
+      payload: allPins,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
+
+// update pin vote
+export const HandlePinVote = async (dbId: string, userId: string) => {
+  try {
+    await dbConnect();
+
+    const res = await Pin.findByIdAndUpdate(dbId, {
+      $push: { votes: { userId } },
+    }).lean();
+
+    console.log(res);
+
+    return {
+      status: "success",
+      payload: res,
+    };
+  } catch (error) {
+    console.log(error);
     return {
       status: "error",
       payload: error,

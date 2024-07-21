@@ -1,5 +1,7 @@
 "use client";
 
+import moment from "moment"
+
 import { useModal } from "@/app/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
 import { ethers } from "ethers";
@@ -17,8 +19,9 @@ const CreateSinglePinModel = () => {
   const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
-    const message = `You are the owner and creating this group`;
+    const message = `
+      You are the owner and creating this pin ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}
+    `;
     e.preventDefault();
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -36,22 +39,20 @@ const CreateSinglePinModel = () => {
       const res = await HandlePinCreate(formData);
 
       if (res.status === "success") {
-
-        console.log(res.payload)
+        toast("Good job, others can now see your pin");
 
         router.refresh();
       }
 
-      if(res.status === "error"){
-        toast(`${JSON.stringify(res.payload)}`)
+      if (res.status === "error") {
+        toast(`${JSON.stringify(res.payload)}`);
       }
 
       router.refresh();
       form.reset();
       onClose();
-    } catch (error:any) {
-      console.log(error ,"there is an error");
-   
+    } catch (error: any) {
+      console.log(error, "there is an error");
     }
   };
 
@@ -70,12 +71,12 @@ const CreateSinglePinModel = () => {
         open={isModalOpen}
         className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
-
         <form onSubmit={onSubmit}>
           <header className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Create a Pin</h2>
             <p className="text-gray-800">
-              In need of a task to be done, create yourself a pin for others to see if they should get it done or not.
+              In need of a task to be done, create yourself a pin for others to
+              see if they should get it done or not.
             </p>
           </header>
 
@@ -128,7 +129,6 @@ const CreateSinglePinModel = () => {
             </button>
           </div>
         </form>
-
       </dialog>
     </div>
   );

@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { useModal } from "../hooks/use-modal-store";
 import Link from "next/link";
 import moment from "moment";
+import Spinner from "./ui/spinner"
+import { HandleGetAllPins } from "../lib/action";
 
 interface CreatePinModelHeaderProps {
   user: any;
@@ -12,6 +14,7 @@ interface CreatePinModelHeaderProps {
 const CreatePinModelHeader = ({ user }: CreatePinModelHeaderProps) => {
   const [searchOptions, setSearchOpetions] = useState<any>("");
   const [searchPinSet, setSeatchPin] = useState<[]>([]);
+  const [isLoading, setIsLoading] = useState(false)
   const { onOpen } = useModal();
 
   const availblePins: any = [
@@ -76,7 +79,7 @@ const CreatePinModelHeader = ({ user }: CreatePinModelHeaderProps) => {
   ];
 
   const createPin = () => {
-    onOpen("CreatePin");
+    onOpen("CreatePin", user.userId);
   };
 
   const createPinGroup = () => {
@@ -107,12 +110,17 @@ const CreatePinModelHeader = ({ user }: CreatePinModelHeaderProps) => {
   };
 
   const setPin = async () => {
-    setSeatchPin(availblePins);
+    const res:any = await HandleGetAllPins()
+    setIsLoading(true)
+    setSeatchPin(res.payload)
+    setIsLoading(false)
   };
 
   useEffect(() => {
     setPin();
-  }, []);
+    console.log("pinning all")
+    return () => {}
+  }, [isLoading]);
 
   return (
     <>
@@ -153,34 +161,30 @@ const CreatePinModelHeader = ({ user }: CreatePinModelHeaderProps) => {
       </div>
 
       <section className="w-full flex items-center flex-wrap h-[800px] gap-5 overflow-auto justify-around p-5">
-        {searchPinSet.map((item: any) => (
-          <div
-            key={crypto.randomUUID()}
-            className="w-[600px] h-[400px] bg-[#424] p-2 flex items-center justify-around rounded drop-shadow-lg flex-col md:flex-row"
-          >
-            <div className="md:w-[50%] h-full flex flex-col justify-around bg-[#222] p-4 drop-shadow-lg rounded">
-              <h2 className="text-2xl capitalize text-center">{item.title}</h2>
-              <p className="text-[18px] text-gray-500">{item.description}</p>
-              <p className="bg-[#000] font-bold p-2 flex items-center justify-around rounded">
-                <span className="font-bold uppercase">Earn:</span> {item.earn}
-              </p>
-            </div>
 
-            <div className="md:w-[50%] text-center p-2">
-              <h2 className="text-2xl mb-5">
-                Complete by:{" "}
-                {moment(item.completedBy).format("YYYY-MM-DD HH:mm:ss")}
-              </h2>
-              <Link
-                href={`/pin/${item.id}`}
-                className="text-gray-500 underline font-bold"
-              >
-                Learn More
-              </Link>
+      {
+        isLoading ? (
+          <Spinner />
+        ) : (
+            <div>
+              {
+                searchPinSet?.map((item:any) => (
+                  <div key={crypto.randomUUID()} className="w-[300px] h-[200px] p-2 bg-[#333] drop-shadow-lg rounded">
+                    <h2 className="text-2xl">{item.title}</h2>
+                    <p className="text-sm">{item.description}</p>
+                    <div>
+                      <p>Status: <span className={item.status === "COMPLETED" ? "bg-emerald-500 p-4" : "bg-[#000] p-4"}>{item.status}</span></p>
+                      <p>Complete By: <span>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</span></p>
+                    </div>
+                  </div>
+                ))
+              }
             </div>
-          </div>
-        ))}
+        )
+      }
+
       </section>
+
     </>
   );
 };

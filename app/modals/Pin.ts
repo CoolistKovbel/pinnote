@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
 export interface IPin {
-  owner: string;
+  owner: any;
   title: string;
   description: string;
   PinTime: number;
   PinRate: number;
   date: string;
   transactionHash: string;
+  pinCreationSigantion: string;
 
   status: string;
   votes: any;
@@ -18,9 +19,8 @@ export interface IPin {
 const PinSchema = new mongoose.Schema<IPin>(
   {
     owner: {
-      type: String,
-      require: true,
-      unique: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     date: {
       type: String,
@@ -29,6 +29,9 @@ const PinSchema = new mongoose.Schema<IPin>(
       type: String,
     },
     description: {
+      type: String,
+    },
+    pinCreationSigantion: {
       type: String,
     },
     transactionHash: {
@@ -49,7 +52,11 @@ const PinSchema = new mongoose.Schema<IPin>(
   { timestamps: true }
 );
 
+PinSchema.index({ owner: 1, pinCreationSigantion: 1 }, { unique: true });
+
+
 let PinModel: mongoose.Model<IPin>;
+
 
 try {
   // Try to retrieve an existing model
