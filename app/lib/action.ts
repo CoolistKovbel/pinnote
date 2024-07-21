@@ -383,9 +383,8 @@ export const HandlePinCreate = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
   try {
     await dbConnect();
-    console.log("setting up pin");
 
-    console.log(data);
+    console.log("setting up pin");
 
     const ping = new Pin({
       owner: data.userId,
@@ -416,7 +415,7 @@ export const HandleGetAllPins = async () => {
   try {
     await dbConnect();
 
-    const allPins = await Pin.find({}).lean();
+    const allPins = await Pin.find({}).populate("owner").populate("pinGroup").lean();
 
     console.log(allPins);
 
@@ -432,6 +431,8 @@ export const HandleGetAllPins = async () => {
     };
   }
 };
+
+
 
 // update pin vote
 export const HandlePinVote = async (dbId: string, userId: string) => {

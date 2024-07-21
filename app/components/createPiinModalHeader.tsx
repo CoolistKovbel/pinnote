@@ -1,21 +1,23 @@
 "use client";
 
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useModal } from "../hooks/use-modal-store";
-import Link from "next/link";
 import moment from "moment";
-import Spinner from "./ui/spinner"
-import { HandleGetAllPins } from "../lib/action";
+import Image from "next/image";
+import Link from "next/link";
 
 interface CreatePinModelHeaderProps {
   user: any;
+  pins: any;
+  userGroup: any;
 }
 
-const CreatePinModelHeader = ({ user }: CreatePinModelHeaderProps) => {
+const CreatePinModelHeader = ({ user, pins, userGroup }: CreatePinModelHeaderProps) => {
   const [searchOptions, setSearchOpetions] = useState<any>("");
   const [searchPinSet, setSeatchPin] = useState<[]>([]);
-  const [isLoading, setIsLoading] = useState(false)
   const { onOpen } = useModal();
+  const serverPins = JSON.parse(pins);
+  const group = JSON.parse(userGroup)
 
   const availblePins: any = [
     {
@@ -109,19 +111,6 @@ const CreatePinModelHeader = ({ user }: CreatePinModelHeaderProps) => {
     }
   };
 
-  const setPin = async () => {
-    const res:any = await HandleGetAllPins()
-    setIsLoading(true)
-    setSeatchPin(res.payload)
-    setIsLoading(false)
-  };
-
-  useEffect(() => {
-    setPin();
-    console.log("pinning all")
-    return () => {}
-  }, [isLoading]);
-
   return (
     <>
       <div className="w-full h-[100px] p-4 bg-[#444] flex items-center justify-center">
@@ -161,30 +150,76 @@ const CreatePinModelHeader = ({ user }: CreatePinModelHeaderProps) => {
       </div>
 
       <section className="w-full flex items-center flex-wrap h-[800px] gap-5 overflow-auto justify-around p-5">
+        <div className="flex items-center flex-wrap justify-between w-full">
+          {serverPins && 
+            serverPins?.payload?.map((item: any) => (
+              <div
+                key={crypto.randomUUID()}
+                className="w-[300px] h-[300px] p-2 bg-[#333] drop-shadow-lg rounded flex flex-col items-center justify-between"
+              >
+                <header className="p-4">
+                  <h2 className="text-2xl text-center">{item.title}</h2>
+                  <p className="text-sm p-2">{item.description}</p>
+                </header>
 
-      {
-        isLoading ? (
-          <Spinner />
-        ) : (
-            <div>
-              {
-                searchPinSet?.map((item:any) => (
-                  <div key={crypto.randomUUID()} className="w-[300px] h-[200px] p-2 bg-[#333] drop-shadow-lg rounded">
-                    <h2 className="text-2xl">{item.title}</h2>
-                    <p className="text-sm">{item.description}</p>
-                    <div>
-                      <p>Status: <span className={item.status === "COMPLETED" ? "bg-emerald-500 p-4" : "bg-[#000] p-4"}>{item.status}</span></p>
-                      <p>Complete By: <span>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</span></p>
-                    </div>
+                <div className="flex items-center gap-5">
+
+                  <div className="w-[50%] p-2 bg-[#555] text-[10px] text-center">
+                    <p className="flex item-center justify-between flex-col">
+                      <span className="text-2xl">Status:</span>
+                      <span
+                        className={
+                          item.status === "COMPLETED"
+                            ? "bg-emerald-500 p-2"
+                            : "bg-[#000] p-2"
+                        }
+                      >
+                        {item.status}
+                      </span>
+                    </p>
+                    <p className="flex item-center justify-between flex-col">
+                      Complete By:{" "}
+                      <span>{moment(item.date).format("MMMM Do YYYY")}</span>
+                    </p>
                   </div>
-                ))
-              }
-            </div>
-        )
-      }
 
+                  <div className="w-[50%] p-1 bg-[#555]">
+
+                    <div className="flex items-center gap-4 flex-col">
+
+                      <Link href={`/profile/${item.owner._id}`}>
+                        <Image
+                          src={item.owner.image}
+                          alt="owner"
+                          width={32}
+                          height={32}
+                        />
+                        <p className="text-[10px] p-1 bg-[#222]">
+                          {item.owner.username}
+                        </p>
+                      </Link>
+
+                      <Link href={`/pin/group/${item._id}`}>
+                        <Image
+                          src={group.payload.image}
+                          alt="owner"
+                          width={32}
+                          height={32}
+                        />
+                        <p className="text-[10px] p-1 bg-[#222]">
+                          {group.payload.username}
+                        </p>
+                        
+                      </Link>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
       </section>
-
     </>
   );
 };
