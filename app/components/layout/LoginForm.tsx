@@ -49,11 +49,11 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full bg-[#222] p-10 flex flex-col  drop-shadow-lg rounded-lg gap-4"
+      className="w-[60%] bg-[#222] p-10 flex flex-col  drop-shadow-lg rounded-lg gap-4"
     >
-      <h2 className="text-2xl font-bold">Login</h2>
+      <h2 className="text-6xl text-center font-bold">Login</h2>
 
-      <label htmlFor="username" className="flex flex-col">
+      <label htmlFor="username" className="flex flex-col gap-5">
         <span className="text-[#999]">User:name</span>
         <input
           id="username"

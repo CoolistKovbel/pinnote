@@ -290,14 +290,40 @@ export const userPinGroupCheck = async () => {
   try {
     await dbConnect();
 
-    const pinGroup = await PinGroup.find({})
+    // TODO: create type variable
 
-    // console.log(pinGroup.groupMembers, "the current users in  group");
-// 
+    let pinGroup:any = await PinGroup.findOne({ })
+    .populate('groupMemebers')
+    .lean();
+
+    const pinGroupp = pinGroup
+    
+    console.log("there are pinGroupp", pinGroupp)
+
+  if (!pinGroup) {
+    return {
+      status: "error",
+      payload: "no grpup found",
+    };
+  }
+
+  const userExistsInGroup = pinGroupp.groupMemebers.some(
+    (member) => member._id.toString() === user.userId
+  );
+
+
+  if (userExistsInGroup) {
+    console.log('User exists in the group', pinGroup);
     return {
       status: "success",
       payload: pinGroup,
     };
+  } 
+    // console.log(gorupMembers.flat(), "the current users in  group");
+    // console.log(user.metaAddress, "de user")
+    // console.log(filterdForUser, "the current users in  group");
+// 
+
   } catch (error) {
     console.log("error trying to see if user in a group", error);
     return {
@@ -323,12 +349,13 @@ export const handleGroupCreate = async (userInpute: FormData) => {
       owner: data.userId as string,
       groupDescription: data.groupDescription,
       image: deImage,
-      groupMembers: [data.userId as string],
     });
+
+    newGroup.groupMemebers.push(data.userId)
 
     await newGroup.save();
 
-    revalidatePath("/");
+    revalidatePath("/pin");
 
     return {
       status: "success",

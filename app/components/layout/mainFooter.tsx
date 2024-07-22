@@ -3,12 +3,13 @@ import Link from "next/link";
 const MainFooter = () => {
   return (
     <footer className="flex items-center justify-between w-full p-10">
-      <div>
+      <div className="flex flex-col gap-4">
         <h1 className="text-4xl md:text-5xl font-bold mb-3">Pinnote</h1>
         <p>
           Chat with other holders and complete certain tasks or setup your own
           tasks for other to complete for a reward.
         </p>
+       <p> Find us on <Link href="https://github.com/CoolistKovbel/pinnote" target="_blank" className="bg-[#222] p-1 font-bold ">github</Link></p>
       </div>
 
       <nav className="flex items-center flex-col p-5 gap-2">

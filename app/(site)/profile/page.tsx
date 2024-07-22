@@ -91,11 +91,8 @@ const Page = async () => {
     },
   ];
 
-
-
   return (
     <main className="w-full min-h-screen bg-[#111] text-white">
-
       <header className="p-4 bg-gray-900 flex items-center justify-between">
         <h2 className="text-3xl font-bold">Profile Page</h2>
 
@@ -109,10 +106,7 @@ const Page = async () => {
             Update Profile
           </Link>
         </nav>
-
       </header>
-
-      
 
       <ProfileSection
         user={user}
@@ -120,8 +114,6 @@ const Page = async () => {
         recentGroupPins={recentGroupPins}
         recentSidePins={recentSidePins}
       />
-
-
     </main>
   );
 };

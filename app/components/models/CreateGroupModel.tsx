@@ -7,10 +7,12 @@ import { handleGroupCreate } from "@/app/lib/action";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const CreateGroupModel = (params: {}) => {
+// Maybe absolute
+
+const CreateGroupModel = () => {
   const { isOpen, onClose, type, signature } = useModal();
   const [groupImage, setGroupImage] = useState<File | null>(null);
-  const fm = signature;
+  const fm = signature as string;
 
   const isModalOpen = isOpen && type === "CreateGroup";
 
@@ -40,7 +42,7 @@ const CreateGroupModel = (params: {}) => {
 
       if (res.status === "success") {
         console.log(res.payload);
-
+        toast(`Nice work, a new pingorup was created`);
         router.refresh();
       }
 

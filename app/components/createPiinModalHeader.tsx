@@ -17,10 +17,9 @@ const CreatePinModelHeader = ({
   pins,
   userGroup,
 }: CreatePinModelHeaderProps) => {
-  
   const [searchOptions, setSearchOpetions] = useState<any>("");
   const { onOpen } = useModal();
-
+  const [reverse, setReverse] = useState(false);
   const [searchPinSet, setSeatchPin] = useState<[]>([]);
   const pinsnotes = JSON.parse(pins).payload;
   const group = JSON.parse(userGroup).payload;
@@ -86,15 +85,14 @@ const CreatePinModelHeader = ({
     },
   ];
 
-  console.log("hanlding pins", pinsnotes)
-  console.log("group", group)
+
 
   const createPin = () => {
-    onOpen("CreatePin", user.userId);
+    onOpen("CreatePin", user.userId as string);
   };
 
   const createPinGroup = () => {
-    onOpen("CreateGroup");
+    onOpen("CreateGroup", user.userId as string);
   };
 
   //   handle search pin
@@ -115,18 +113,23 @@ const CreatePinModelHeader = ({
       console.log("search pin:: ", searchPin);
 
       setSeatchPin(searchPin);
-
     } catch (error) {
       console.log("Error", error);
     }
   };
 
+  console.log("this is the user in the pin page", user);
+  console.log("hanlding pins", pinsnotes);
+  console.log("group", group);
+  console.log(
+    "user in the pin gorup",
+    group.filter((item: any) => item.groupMemebers.includes(user.userId))
+  );
+
   return (
     <>
-      <div className="w-full h-[100px] p-4 bg-[#444] flex items-center justify-center">
-      
-        <div className="w-[80%] flex items-center justify-between mx-auto">
-     
+      <div className="w-full h-fit gap-10 bg-[#444] flex items-center justify-center flex-col">
+        <div className="w-[80%] flex items-center justify-between mx-auto p-4">
           {user.isLoggedIn && (
             <div className="w-[50%] flex items-center gap-5 ">
               <button
@@ -158,54 +161,65 @@ const CreatePinModelHeader = ({
           >
             click
           </button>
-          
         </div>
 
+        {/*  new group highligher belt */}
+        <div className="w-full flex gap-4 items-center justify-center bg-[#000] p-4 flex-row-reverse">
+          {group.map((item) => (
+            <div
+              key={crypto.randomUUID()}
+              className="w-[100px] bg-[#222] p-2 relative"
+            >
+              <div className="relative w-[42px] h-[42px] ">
+                <Image src="/3.png" alt="group image" fill />
+              </div>
+              <h2 className="absolute -top-3 -right-3 text-[8px] p-1 bg-[#322]">{item.groupName}</h2>
+            </div>
+          ))}
+        </div>
       </div>
 
       <section className="w-full flex items-center flex-wrap h-[800px] gap-5 overflow-auto justify-around p-5">
+        <div className="flex items-center flex-wrap justify-between w-[80%] bg-[#222] p-10 gap-5">
+          {pinsnotes.map((item: any) => (
+            <div
+              key={crypto.randomUUID()}
+              className="w-[300px] h-[300px] p-2 bg-[#333] drop-shadow-lg rounded flex flex-col items-center justify-between"
+            >
+              <header className="p-4">
+                <h2 className="text-2xl text-center">{item?.title}</h2>
+                <p className="text-sm p-2">{item?.description}</p>
+              </header>
 
-        <div className="flex items-center flex-wrap justify-between w-full gap-5">
-           {
-             pinsnotes.map((item: any) => (
-              <div
-                key={crypto.randomUUID()}
-                className="w-[300px] h-[300px] p-2 bg-[#333] drop-shadow-lg rounded flex flex-col items-center justify-between"
-              >
+              <div className="flex items-center gap-5 bg-[#222] p-2 drop-shadow-lg rounded">
+                <div className="w-[50%] h-full p-2 bg-[#555] text-[10px] text-center">
+                  <p className="flex item-center justify-between flex-col">
+                    <span className="text-xl">Status:</span>
+                    <span
+                      className={
+                        item?.status === "COMPLETED"
+                          ? "bg-emerald-500 p-2 text-[8px]"
+                          : "bg-[#000] p-2 text-[8px]"
+                      }
+                    >
+                      {item?.status}
+                    </span>
+                  </p>
+                  <p className="flex item-center justify-between flex-col">
+                    Complete By:{" "}
+                    <span>{moment(item?.date).format("MMMM Do YYYY")}</span>
+                  </p>
+                </div>
 
-                <header className="p-4">
-                  <h2 className="text-2xl text-center">{item?.title}</h2>
-                  <p className="text-sm p-2">{item?.description}</p>
-                </header>
-
-                <div className="flex items-center gap-5">
-
-                  <div className="w-[50%] p-2 bg-[#555] text-[10px] text-center">
-                    <p className="flex item-center justify-between flex-col">
-                      <span className="text-2xl">Status:</span>
-                      <span
-                        className={
-                          item?.status === "COMPLETED"
-                            ? "bg-emerald-500 p-2"
-                            : "bg-[#000] p-2"
-                        }
+                <div className="w-[50%] h-full p-1 bg-[#555]">
+                  <div className="flex items-center gap-4 flex-col ">
+                    {reverse ? (
+                      <Link
+                        href={`/profile/${item.owner?._id}`}
+                        className="p-1 flex items-center justify-center flex-col gap-2"
                       >
-                        {item?.status}
-                      </span>
-                    </p>
-                    <p className="flex item-center justify-between flex-col">
-                      Complete By:{" "}
-                      <span>{moment(item?.date).format("MMMM Do YYYY")}</span>
-                    </p>
-                  </div>
-
-                  <div className="w-[50%] p-1 bg-[#555]">
-
-                    <div className="flex items-center gap-4 flex-col">
-
-                      <Link href={`/profile/${item.owner?._id}`}>
                         <Image
-                          src={item.owner?.image && "/3.png"}
+                          src="/3.png"
                           alt="owner"
                           width={32}
                           height={32}
@@ -214,29 +228,33 @@ const CreatePinModelHeader = ({
                           {item.owner?.username}
                         </p>
                       </Link>
-
-                      {/* <Link href={`/pin/group/${item._id}`}>
+                    ) : (
+                      <Link
+                        href={`/pin/group/${item._id}`}
+                        className="p-1 flex items-center justify-center flex-col gap-2"
+                      >
                         <Image
-                          src={group.payload.image}
+                          src="/3.png"
                           alt="owner"
                           width={32}
                           height={32}
                         />
-                        <p className="text-[10px] p-1 bg-[#222]">
-                          {group.payload.groupName}
-                        </p>
-                        
-                      </Link> */}
+                        <p className="text-[10px] p-1 bg-[#222]">smile nehva</p>
+                      </Link>
+                    )}
 
-                    </div>
-
-                  </div> 
-
+                    <button
+                      onClick={() => setReverse((prev) => !prev)}
+                      className="text-[10px] bg-[#222] p-1 drop-shadow-lg rounded font-bold hover:bg-[#333]"
+                    >
+                      reverse
+                    </button>
+                  </div>
                 </div>
               </div>
-            ))} 
+            </div>
+          ))}
         </div>
-
       </section>
     </>
   );

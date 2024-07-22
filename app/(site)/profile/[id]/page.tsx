@@ -88,12 +88,15 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="w-full min-h-screen">
+
       <header className="flex items-center justify-between p-5">
         <h2>PRofile of user..{JSON.stringify(params.id)}</h2>
+
         <nav>
           <Link href="/group/1f1f">View Group</Link>
           <Link href="/vie/1f1f">View </Link>
         </nav>
+        
       </header>
 
       <UserProfile
@@ -102,6 +105,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
         recentGroupPins={recentGroupPins}
         recentSidePins={recentGroupPins}
       />
+
     </div>
   );
 };

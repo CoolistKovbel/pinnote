@@ -22,11 +22,7 @@ const UserProfile = ({
   useEffect(() => {
     const scan = async () => {
       const actionLoad: any = await getUserById(id);
-
-      console.log(actionLoad);
-
       actionLoad.payload.sendMessage = true;
-
       setUser(actionLoad.payload);
     };
 
@@ -36,7 +32,7 @@ const UserProfile = ({
   return (
     <ProfileSection
       id={id}
-      pinGroupValid={pinGroupValid}
+      pinGroupValid={JSON.stringify(pinGroupValid)}
       user={user}
       recentGroupPins={recentGroupPins}
       recentSidePins={recentSidePins}

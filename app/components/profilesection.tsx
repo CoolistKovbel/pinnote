@@ -49,16 +49,25 @@ const ProfileSection = ({
     }
   };
 
+  const handleTip = async () => {
+    console.log("handling tip")
+  }
+
+  console.log(pinGroup.payload, "this is the gorup")
+
+
+
   return (
     <section className="p-6 w-full">
 
       <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
         {/* user profile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start md:flex-row">
+
           <div className="w-[150px] h-[150px] relative rounded-full overflow-hidden">
             <Image
               className="rounded-full"
-              src={user.image || "/3.png"}
+              src={user.image ? `${user.image}`: "/3.png"}
               alt={`${user.username}'s profile`}
               layout="fill"
             />
@@ -89,19 +98,23 @@ const ProfileSection = ({
                 </Link>
               )}
 
-              <button className="bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700">
+              <button onClick={handleTip} className="bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700">
                 Tip
               </button>
+
             </div>
+
           </div>
+
         </div>
 
         {/* user group profile */}
         <div className="w-full md:w-1/2 mt-6 md:mt-0">
 
           <div className="w-full flex flex-col gap-4">
+
             <div className="bg-[#222] p-4 rounded-lg">
-              <h3 className="flex items-center justify-between">
+              <h3 className="flex items-start justify-between flex-col">
                 Blockchain Account:{" "}
                 <Link
                   href={`https://etherscan.io/address/${user.metaAddress}`}
@@ -120,6 +133,7 @@ const ProfileSection = ({
           </div>
 
           <div className="mt-4 flex items-center gap-4 w-full justify-between">
+
             {pinGroup.payload === null ? (
               <div>
                 <h2>Sorry, no group</h2>
@@ -132,13 +146,13 @@ const ProfileSection = ({
               </div>
             ) : (
               <Link
-                href={`/pin/group/${pinGroup._id}`}
+                href={`/pin/group/${pinGroup.payload._id}`}
                 className="flex items-center gap-2"
               >
                 <div className="w-[100px] h-[100px] relative rounded-lg overflow-hidden">
                   <Image
-                    src={`${pinGroup?.payload?.image}`}
-                    alt={pinGroup.groupDescription}
+                    src="/3.png"
+                    alt={pinGroup.payload.groupDescription}
                     fill
                   />
                 </div>
@@ -167,6 +181,7 @@ const ProfileSection = ({
           </div>
 
         </div>
+
       </header>
 
       <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
