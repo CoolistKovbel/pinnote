@@ -67,9 +67,9 @@ const ProfileSection = ({
   };
 
  // ===========================
-  console.log(recentCompletedPins, " usergroup ")
-  console.log(pinGroup.status , "recent group  pins the ithe priofile section")
-  console.log(recentSidePins, "recent sid pins by the profile section")
+  console.log(user, " usergroup ")
+  
+  
 
   return (
     <section className="p-6 w-full">

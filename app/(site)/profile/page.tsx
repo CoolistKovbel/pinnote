@@ -2,17 +2,22 @@
 
 import GroupNotifactionMessage from "@/app/components/profile/groupnotifcationmessage";
 import ProfileSection from "@/app/components/profilesection";
-import { getSession, userPinGroupCheck } from "@/app/lib/action";
+import { getSession, grabSpecficGroupPins, userPinGroupCheck } from "@/app/lib/action";
 import Link from "next/link";
 
 const Page = async () => {
   const user = await getSession();
 
   const pinGroupValid: any = await userPinGroupCheck();
+  // const recentGroupPins = await grabSpecficGroupPins(pinGroupValid[0].payload._id)
+
+  const userGroup = pinGroupValid.payload[0]
+
+  const groupPins = await grabSpecficGroupPins(pinGroupValid.payload[0]._id)
 
   const recentGroupPins = [
     {
-      pinTitle: "wef",
+      pinTitle: "slow life",
       pinComplete: "in progress",
       groupVotes: 5,
       pinDescription:
@@ -91,10 +96,12 @@ const Page = async () => {
     },
   ];
 
-  console.log(pinGroupValid, "died the ping of the uer")
+  // console.log(pinGroupValid, "died the ping of the uer")
+  console.log(groupPins, " ping of the uer")
 
   return (
     <main className="w-full min-h-screen bg-[#111] text-white">
+
       <header className="p-4 bg-gray-900 flex items-center justify-between">
         <h2 className="text-3xl font-bold">Profile Page</h2>
 
@@ -116,6 +123,7 @@ const Page = async () => {
         recentGroupPins={recentGroupPins}
         recentSidePins={recentSidePins}
       />
+      
     </main>
   );
 };

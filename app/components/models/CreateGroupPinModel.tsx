@@ -57,7 +57,10 @@ const CreateGroupPinModel = () => {
     } catch (error: any) {
       console.log(error, "there is an error");
     }
+
   };
+
+  
 
   return (
     <div

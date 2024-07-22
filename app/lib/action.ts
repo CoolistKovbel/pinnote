@@ -12,6 +12,7 @@ import { Types } from "mongoose";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { Pin } from "../modals/Pin";
+import { GroupPin } from "../modals/GroupPins";
 
 const hadleImageUpload = async (image: any) => {
   const fileBuffer = await (image as File).arrayBuffer();
@@ -282,6 +283,35 @@ export const getAllPinGroups = async () => {
   }
 };
 
+export const grabSpecficGroupPins = async (pinGroupId: string) => {
+
+  console.log("pinGrou" ,pinGroupId)
+  try {
+
+    await dbConnect();
+
+    const validGroupPins = await GroupPin.find({
+      SelectedGroup: pinGroupId
+    }).lean()
+
+
+    
+
+    console.log(validGroupPins, "stupif pins")
+    console.log(pinGroupId, "stupif pins")
+
+    return {
+      status: "success",
+      payload: validGroupPins,
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+}
+
 // check if user is in group
 export const userPinGroupCheck = async () => {
   console.log("checking to see if user is in a pingroup");
@@ -393,21 +423,40 @@ export const getPinGroupByID = async (pinGroupId: string) => {
   }
 };
 
+
 export const HandleGroupPinCreate = async (formData: FormData) => {
+  // TODO: get the absoulute path here as welll..............
+  
   const data = Object.fromEntries(formData);
+
   try {
     await dbConnect();
 
     console.log("setting up group pin", data);
 
-    revalidatePath("/pin");
+    const payload = {
+      PinTitle: data.pinTitle,
+      PinDescription: data.PinDescription,
+      image: data.pinImage,
+      PinRequestor: data.userId
+    }
+
+
+    const res = new GroupPin(payload)
+
+    await res.save()
+    
+    console.log("res", res)
+
+    revalidatePath("/");
 
     return {
       status: "success",
-      payload: "",
+      payload: res,
     };
   } catch (error) {
     console.log("error", error);
+
     return {
       status: "error",
       payload: error,
