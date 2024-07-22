@@ -286,39 +286,37 @@ export const getAllPinGroups = async () => {
 export const userPinGroupCheck = async () => {
   console.log("checking to see if user is in a pingroup");
   const user = await getSession();
+  const PlaYPingGroup:any = []
 
   try {
     await dbConnect();
 
     // TODO: create type variable
 
-    let pinGroup:any = await PinGroup.findOne({ })
+    const pinGroup:any = await PinGroup.find({})
     .populate('groupMemebers')
     .lean();
 
-    const pinGroupp = pinGroup
+    pinGroup.forEach((item) => {
+
+      const gg = item.groupMemebers.filter((item) => item._id.toString() === user.userId)
+
+      if(Array.isArray(gg)) {
+        console.log("the user gorup is...", item)
+        console.log("the user gorup is...jj", gg)
+        PlaYPingGroup.push(item)
+      }
+
+    })
     
-    console.log("there are pinGroupp", pinGroupp)
 
-  if (!pinGroup) {
-    return {
-      status: "error",
-      payload: "no grpup found",
-    };
-  }
+    console.log(PlaYPingGroup, "afedvnfbkjsenbnepkbnpekbmpke")
 
-  const userExistsInGroup = pinGroupp.groupMemebers.some(
-    (member) => member._id.toString() === user.userId
-  );
-
-
-  if (userExistsInGroup) {
-    console.log('User exists in the group', pinGroup);
     return {
       status: "success",
-      payload: pinGroup,
+      payload: "",
     };
-  } 
+
     // console.log(gorupMembers.flat(), "the current users in  group");
     // console.log(user.metaAddress, "de user")
     // console.log(filterdForUser, "the current users in  group");

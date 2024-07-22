@@ -91,6 +91,8 @@ const Page = async () => {
     },
   ];
 
+  console.log(pinGroupValid, "died the ping of the uer")
+
   return (
     <main className="w-full min-h-screen bg-[#111] text-white">
       <header className="p-4 bg-gray-900 flex items-center justify-between">

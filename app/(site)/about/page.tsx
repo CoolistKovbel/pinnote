@@ -3,12 +3,12 @@ import React from "react";
 
 const Page = () => {
   return (
-    <main className="min-h-screen w-full bg-[#111]">
+    <main className="min-h-screen w-full bg-[#111] ">
       <header className="w-full p-4 bg-[#333] h-[100px] text-center">
         <h2 className="font-bold text-4xl">About PinNote</h2>
       </header>
 
-      <section className="p-10 flex flex-col gap-10 text-xl leading-7">
+      <section className="p-10 flex flex-col gap-10 text-xl leading-7 ">
         <p>
           <strong>PinNote</strong> is a application that allows you to be able
           to sign up and create an account with us to be able to earn rewards
@@ -68,7 +68,7 @@ const Page = () => {
 
         {/* Social? */}
 
-        <div className="w-[50%] drop-shadow-lg mx-auto rounded p-5 bg-[firebrick] flex items-center justify-between">
+        <div className="w-[50%] drop-shadow-lg mx-auto rounded p-5 bg-[firebrick] flex items-center justify-between flex-col h-[300px] pb-4">
           <Link href="http://www.twitter.com" target="_blank" className="bg-[#222] p-4 hover:bg-[#000] text-2xl font-bold drop-shadow-lg rounded">Twitter</Link>
           <Link href="http://www.twitter.com" target="_blank" className="bg-[#222] p-4 hover:bg-[#000] text-2xl font-bold drop-shadow-lg rounded">LinkedIn</Link>
           <Link href="http://www.twitter.com" target="_blank" className="bg-[#222] p-4 hover:bg-[#000] text-2xl font-bold drop-shadow-lg rounded">Youtube</Link>

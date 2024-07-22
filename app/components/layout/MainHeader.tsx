@@ -42,6 +42,7 @@ const MainHeader = ({ user }: MainHeaderProps) => {
 
   return (
     <header className="bg-[#222] p-4  w-full">
+
       <div className="w-[80%] mx-auto flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-bold">
@@ -98,6 +99,7 @@ const MainHeader = ({ user }: MainHeaderProps) => {
           </div>
         )}
       </div>
+      
     </header>
   );
 };
