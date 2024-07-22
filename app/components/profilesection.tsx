@@ -20,7 +20,9 @@ const ProfileSection = ({
   id,
 }: ProfileSectionProp) => {
   const { onOpen } = useModal();
-  const pinGroup = JSON.parse(pinGroupValid)
+
+  const pinGroup = JSON.parse(pinGroupValid);
+  const recentCompletedPins = pinGroup.payload[0].completedPins
 
   const handleCreateGroup = async () => {
     try {
@@ -30,7 +32,18 @@ const ProfileSection = ({
     } catch (error) {
       console.log("Error creating group", error);
     }
-  }; 
+  };
+
+  const handleCreatePinGroup = async () => {
+    try {
+      console.log("creating a pin for the group");
+
+      onOpen("CreateGroupPin", user.userId as string);
+
+    } catch (error) {
+      console.log("Error creating group", error);
+    }
+  };
 
   // ===========================
 
@@ -50,24 +63,23 @@ const ProfileSection = ({
   };
 
   const handleTip = async () => {
-    console.log("handling tip")
-  }
+    console.log("handling tip");
+  };
 
-  console.log(pinGroup.payload, "this is the gorup")
-
-
+ // ===========================
+  console.log(recentCompletedPins, " usergroup ")
+  console.log(pinGroup.status , "recent group  pins the ithe priofile section")
+  console.log(recentSidePins, "recent sid pins by the profile section")
 
   return (
     <section className="p-6 w-full">
-
       <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
         {/* user profile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start md:flex-row">
-
           <div className="w-[150px] h-[150px] relative rounded-full overflow-hidden">
             <Image
               className="rounded-full"
-              src={user.image ? `${user.image}`: "/3.png"}
+              src={user.image ? `${user.image}` : "/3.png"}
               alt={`${user.username}'s profile`}
               layout="fill"
             />
@@ -98,21 +110,19 @@ const ProfileSection = ({
                 </Link>
               )}
 
-              <button onClick={handleTip} className="bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700">
+              <button
+                onClick={handleTip}
+                className="bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700"
+              >
                 Tip
               </button>
-
             </div>
-
           </div>
-
         </div>
 
         {/* user group profile */}
         <div className="w-full md:w-1/2 mt-6 md:mt-0">
-
           <div className="w-full flex flex-col gap-4">
-
             <div className="bg-[#222] p-4 rounded-lg">
               <h3 className="flex items-start justify-between flex-col">
                 Blockchain Account:{" "}
@@ -133,7 +143,6 @@ const ProfileSection = ({
           </div>
 
           <div className="mt-4 flex items-center gap-4 w-full justify-between">
-
             {pinGroup.payload === null ? (
               <div>
                 <h2>Sorry, no group</h2>
@@ -147,49 +156,51 @@ const ProfileSection = ({
             ) : (
               <Link
                 href={`/pin/group/${pinGroup.payload._id}`}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 bg-[#222] p-2 drop-shadow-lg rounded"
               >
                 <div className="w-[100px] h-[100px] relative rounded-lg overflow-hidden">
                   <Image
-                    src="/3.png"
-                    alt={pinGroup.payload.groupDescription}
+                    src={
+                      pinGroup.payload[0]?.image
+                        ? `${pinGroup.payload[0].image}`
+                        : "/3.png"
+                    }
+                    alt={pinGroup.payload[0].groupDescription}
                     fill
                   />
                 </div>
-                <p className="flex flex-col gap-4 items-center">
-                  <span className="p-2 font-bold rounded text-center">
-                    {pinGroup.payload.groupName}
-                  </span>
+
+                <div className="flex flex-col gap-4 items-center p-1">
+                  <p className="p-2 font-bold rounded text-center">
+                    {pinGroup.payload[0].groupName}
+                  </p>
+
                   <Link
-                    href={`/pin/group/${pinGroup.payload._id}`}
-                    className="p-2 bg-[#222] rounded"
+                    href={`/pin/group/${pinGroup.payload[0]._id}`}
+                    className="p-2 bg-[#555] hover:bg-[#333] rounded"
                   >
                     View
                   </Link>
-                </p>
+                </div>
               </Link>
             )}
-            <div className="bg-[#222] p-2 items-center">
-              <h2>Current Pin:</h2>
+            <div className="bg-[#222] p-2 items-center rounded drop-shadow-lg">
+              <h2 className="mb-2">Current Pin:</h2>
+
               <Link
                 href={`/pin/${crypto.randomUUID()}`}
-                className="text-blue-500 hover:underline"
+                className="text-blue-500 hover:underline bg-[#333] p-1 drop-shadow-lg"
               >
                 View
               </Link>
             </div>
           </div>
-
         </div>
-
       </header>
 
-      <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4 underline">
-          Recent Group Pins:
-        </h2>
-
-        {pinGroup.payload === null ? (
+      
+      {
+        pinGroup.payload.length === 0 || pinGroup.payload === "" && (
           <div className="flex flex-col items-center justify-center gap-6">
             <h2 className="text-4xl capitalize">Sorry there are no pins</h2>
             <p className="text-2xl font-bold">Create or join a group</p>
@@ -208,9 +219,38 @@ const ProfileSection = ({
               </button>
             </div>
           </div>
+        )
+      }
+
+
+      <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
+        <h2 className="text-4xl font-semibold mb-4 underline">
+          Recent Group Pins:
+        </h2>
+
+        {recentCompletedPins.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-6">
+            <h2 className="text-4xl capitalize">Sorry there are no pins</h2>
+            <p className="text-2xl font-bold">Create a group pin</p>
+
+            <div className="flex items-center justify-around w-[50%]">
+              <Link
+                href="/pin/group"
+                className="bg-[#231] font-bold p-4 rounded drop-shadow-lg hover:bg-[#111]"
+              >
+                Look for one
+              </Link>
+              <button
+                className="bg-[#231] font-bold p-4 rounded drop-shadow-lg hover:bg-[#111]"
+                onClick={handleCreatePinGroup}
+              >
+                Create one
+              </button>
+            </div>
+          </div>
         ) : (
           <div className="flex gap-4 overflow-x-auto">
-            {recentGroupPins.map((pin: any) => (
+            {recentCompletedPins.map((pin: any) => (
               <div
                 key={pin.pinId}
                 className="bg-[#222] p-4 rounded-lg flex-shrink-0 w-80"
@@ -236,7 +276,7 @@ const ProfileSection = ({
       </article>
 
       <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4 underline">
+        <h2 className="text-4xl font-semibold mb-4 underline">
           Recent Side Pins:
         </h2>
 
@@ -263,8 +303,6 @@ const ProfileSection = ({
           ))}
         </div>
       </article>
-
-      
     </section>
   );
 };

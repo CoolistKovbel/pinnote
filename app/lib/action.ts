@@ -286,42 +286,35 @@ export const getAllPinGroups = async () => {
 export const userPinGroupCheck = async () => {
   console.log("checking to see if user is in a pingroup");
   const user = await getSession();
-  const PlaYPingGroup:any = []
+  const PlaYPingGroup: any = [];
 
   try {
     await dbConnect();
 
     // TODO: create type variable
 
-    const pinGroup:any = await PinGroup.find({})
-    .populate('groupMemebers')
-    .lean();
+    const pinGroup = await PinGroup.find({}).populate("groupMemebers").lean();
 
     pinGroup.forEach((item) => {
+      const userInGroup = item.groupMemebers.some(
+        (member) => member._id.toString() === user.userId
+      );
 
-      const gg = item.groupMemebers.filter((item) => item._id.toString() === user.userId)
-
-      if(Array.isArray(gg)) {
-        console.log("the user gorup is...", item)
-        console.log("the user gorup is...jj", gg)
-        PlaYPingGroup.push(item)
+      if (userInGroup) {
+        console.log("The user group is...", item);
+        PlaYPingGroup.push(item);
       }
-
-    })
-    
-
-    console.log(PlaYPingGroup, "afedvnfbkjsenbnepkbnpekbmpke")
+    });
 
     return {
       status: "success",
-      payload: "",
+      payload: PlaYPingGroup,
     };
 
     // console.log(gorupMembers.flat(), "the current users in  group");
     // console.log(user.metaAddress, "de user")
     // console.log(filterdForUser, "the current users in  group");
-// 
-
+    //
   } catch (error) {
     console.log("error trying to see if user in a group", error);
     return {
@@ -336,7 +329,7 @@ export const handleGroupCreate = async (userInpute: FormData) => {
   console.log("Creating a group");
   const data = Object.fromEntries(userInpute);
 
-  // 
+  //
 
   try {
     await dbConnect();
@@ -349,7 +342,7 @@ export const handleGroupCreate = async (userInpute: FormData) => {
       image: deImage,
     });
 
-    newGroup.groupMemebers.push(data.userId)
+    newGroup.groupMemebers.push(data.userId);
 
     await newGroup.save();
 
@@ -359,7 +352,6 @@ export const handleGroupCreate = async (userInpute: FormData) => {
       status: "success",
       payload: newGroup,
     };
-
   } catch (error: any) {
     console.log("Error creating group", error);
 
@@ -394,6 +386,28 @@ export const getPinGroupByID = async (pinGroupId: string) => {
       payload: pinGroupdetails,
     };
   } catch (error) {
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
+
+export const HandleGroupPinCreate = async (formData: FormData) => {
+  const data = Object.fromEntries(formData);
+  try {
+    await dbConnect();
+
+    console.log("setting up group pin", data);
+
+    revalidatePath("/pin");
+
+    return {
+      status: "success",
+      payload: "",
+    };
+  } catch (error) {
+    console.log("error", error);
     return {
       status: "error",
       payload: error,
@@ -439,7 +453,7 @@ export const HandleGetAllPins = async () => {
   try {
     await dbConnect();
 
-    const allPins = await Pin.find({}).populate("owner").lean()
+    const allPins = await Pin.find({}).populate("owner").lean();
 
     console.log(allPins, "All the pins");
 

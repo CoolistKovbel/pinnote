@@ -5,6 +5,7 @@ import AuthUserModel from "../components/models/AuthUserModel";
 import CreateGroupModel from "../components/models/CreateGroupModel";
 import GroupMessageModal from "../components/models/GroupMessageModal";
 import CreateSinglePinModel from "../components/models/SinglePinModel";
+import CreateGroupPinModel from "../components/models/CreateGroupPinModel";
 
 
 export const  ModalProvider = () => {
@@ -24,6 +25,7 @@ export const  ModalProvider = () => {
       <CreateGroupModel />
       <GroupMessageModal />
       <CreateSinglePinModel />
+      <CreateGroupPinModel />
     </>
   );
 };
