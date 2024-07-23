@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useModal } from "../hooks/use-modal-store";
+import { getContractDetails } from "../lib/web3";
 
 interface ProfileSectionProp {
   pinGroupValid: any;
@@ -37,6 +38,10 @@ const ProfileSection = ({
   const handleCreatePinGroup = async () => {
     try {
       console.log("creating a pin for the group");
+      
+      const gg = await getContractDetails()
+      console.log(gg)
+
 
       onOpen("CreateGroupPin", user.userId as string);
 
@@ -73,6 +78,7 @@ const ProfileSection = ({
 
   return (
     <section className="p-6 w-full">
+
       <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
         {/* user profile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start md:flex-row">
@@ -247,6 +253,7 @@ const ProfileSection = ({
                 Create one
               </button>
             </div>
+
           </div>
         ) : (
           <div className="flex gap-4 overflow-x-auto">
@@ -303,6 +310,7 @@ const ProfileSection = ({
           ))}
         </div>
       </article>
+      
     </section>
   );
 };

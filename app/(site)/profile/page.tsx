@@ -15,6 +15,7 @@ const Page = async () => {
 
   const groupPins = await grabSpecficGroupPins(pinGroupValid.payload[0]._id)
 
+  
   const recentGroupPins = [
     {
       pinTitle: "slow life",
@@ -97,7 +98,7 @@ const Page = async () => {
   ];
 
   // console.log(pinGroupValid, "died the ping of the uer")
-  console.log(groupPins, " ping of the uer")
+  console.log(groupPins.payload, " ping of the uer")
 
   return (
     <main className="w-full min-h-screen bg-[#111] text-white">

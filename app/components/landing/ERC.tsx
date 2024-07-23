@@ -58,6 +58,7 @@ const ERCToken = () => {
   return (
     <div className="bg-[#111] p-10 flex items-center justify-around ">
       <div className="w-full flex items-center justify-around flex-col md:flex-row">
+        
         <header className="w-full md:w-[45%]">
           <h2 className="text-5xl font-bold mb-4 text-center underline flex items-center justify-center gap-4">
             <span>{contractDetails.tokenName}</span>
@@ -131,6 +132,7 @@ const ERCToken = () => {
             </button>
           </form>
         </div>
+
       </div>
     </div>
   );

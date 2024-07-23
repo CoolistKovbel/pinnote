@@ -1,6 +1,8 @@
-"use server"
+"use server";
 
 import { getAllPinGroups } from "@/app/lib/action";
+import Image from "next/image";
+import Link from "next/link";
 
 const Page = async () => {
   // Grabbing groups from server
@@ -171,12 +173,23 @@ const Page = async () => {
       //     groupID: crypto.randomUUID(),
       //   },
       // ];
-
     } catch (error) {
       console.log("Error getting pingroups", error);
       return [];
     }
   };
+
+  const allPins = [
+    {
+      id: crypto.randomUUID(),
+      title: "Janbalon",
+      description: `            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+            porro hic reprehenderit iure, fugiat assumenda provident quae
+            voluptatem quasi officiis, laborum corrupti minus eveniet ut tempora
+            quidem praesentium. Suscipit, labore?`,
+      image: "/3.png",
+    },
+  ];
 
   console.log(pinGroups);
 
@@ -184,6 +197,7 @@ const Page = async () => {
     <main className="w-full min-h-screen">
       <header className="p-4 bg-[#111]">
         <h2 className="text-4xl font-bold mb-4">PinNote Groups</h2>
+
         <p className="text-md text-gray-500">
           Looking for a group, find a group that needs a person or two and join.
           Once there are 5 people you will be able to start accepting and doing
@@ -191,7 +205,26 @@ const Page = async () => {
         </p>
       </header>
 
-      {/* <GroupPin /> */}
+      {/* galaray */}
+      <section className="flex flex-col justify-center item-center w-[300px] h-[600px] bg-[#444] p-4">
+        <div className="w-[250px] h-[250px] relative mx-auto">
+          <Image src={allPins[0].image} alt="group image" fill />
+        </div>
+
+        <header className="p-2">
+          <h2 className="text-2xl font-bold">{allPins[0].title}</h2>
+          <p>{allPins[0].description}</p>
+        </header>
+
+        <footer className="bg-[#111] p-4 drop-shadow-lg">
+          <Link
+            href={allPins[0].id}
+            className="font-bold p-2 bg-[#222] rounded drop-shadow"
+          >
+            group
+          </Link>
+        </footer>
+      </section>
     </main>
   );
 };

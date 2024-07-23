@@ -25,7 +25,7 @@ export default async function RootLayout({
   const user = await getSession();
   return (
     <html lang="en">
-      <body className={`${inter.className} `}>
+      <body className={`${inter.className}`}>
         <MainHeader user={user}/>
         {children}
         <ToastContainer />

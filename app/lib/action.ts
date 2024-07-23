@@ -284,21 +284,16 @@ export const getAllPinGroups = async () => {
 };
 
 export const grabSpecficGroupPins = async (pinGroupId: string) => {
-
-  console.log("pinGrou" ,pinGroupId)
+  console.log("pinGrou", pinGroupId);
   try {
-
     await dbConnect();
 
     const validGroupPins = await GroupPin.find({
-      SelectedGroup: pinGroupId
-    }).lean()
+      SelectedGroup: pinGroupId,
+    });
 
-
-    
-
-    console.log(validGroupPins, "stupif pins")
-    console.log(pinGroupId, "stupif pins")
+    console.log(validGroupPins, "stupif pins stripes");
+    console.log(pinGroupId, "stupif pins");
 
     return {
       status: "success",
@@ -310,7 +305,7 @@ export const grabSpecficGroupPins = async (pinGroupId: string) => {
       payload: error,
     };
   }
-}
+};
 
 // check if user is in group
 export const userPinGroupCheck = async () => {
@@ -336,9 +331,16 @@ export const userPinGroupCheck = async () => {
       }
     });
 
+    console.log(pinGroup)
+
+    const GroupPins = await GroupPin.findById(pinGroup[0]._id)
+
+    console.log(GroupPins, "the pin that is meant for the gorup")
+
+
     return {
       status: "success",
-      payload: PlaYPingGroup,
+      payload: pinGroup,
     };
 
     // console.log(gorupMembers.flat(), "the current users in  group");
@@ -423,10 +425,9 @@ export const getPinGroupByID = async (pinGroupId: string) => {
   }
 };
 
-
 export const HandleGroupPinCreate = async (formData: FormData) => {
   // TODO: get the absoulute path here as welll..............
-  
+
   const data = Object.fromEntries(formData);
 
   try {
@@ -438,15 +439,14 @@ export const HandleGroupPinCreate = async (formData: FormData) => {
       PinTitle: data.pinTitle,
       PinDescription: data.PinDescription,
       image: data.pinImage,
-      PinRequestor: data.userId
-    }
+      PinRequestor: data.userId,
+    };
 
+    const res = new GroupPin(payload);
 
-    const res = new GroupPin(payload)
+    await res.save();
 
-    await res.save()
-    
-    console.log("res", res)
+    console.log("res", res);
 
     revalidatePath("/");
 
@@ -519,6 +519,14 @@ export const HandleGetAllPins = async () => {
   }
 };
 
+// handle group join
+
+
+
+// handle group leave
+
+// handle group pin status
+
 // update pin vote
 export const HandlePinVote = async (dbId: string, userId: string) => {
   try {
@@ -542,9 +550,3 @@ export const HandlePinVote = async (dbId: string, userId: string) => {
     };
   }
 };
-
-// handle group join
-
-// handle group leave
-
-// handle group pin status

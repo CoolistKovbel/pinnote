@@ -20,13 +20,20 @@ app.prepare().then(() => {
 
     socket.on("joinRoom", (roomId) => {
       socket.join(roomId);
+
+
+      // TODO: Logs when user joins group
+
       console.log(`User joined room: ${roomId}`);
     });
 
     socket.on("message", ({ roomId, message }) => {
       console.log("message:", message);
+
       io.to(roomId).emit("message", message);
     });
+
+
 
     socket.on("newEvent", (data) => {
       console.log("newEvent received:", data);

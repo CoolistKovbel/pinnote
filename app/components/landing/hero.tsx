@@ -4,7 +4,7 @@ import React from "react";
 
 const Hero = () => {
   return (
-    <div className="bg-[#111] p-10 flex items-center justify-center w-full h-[600px] overflow-auto">
+    <div className="bg-[#111] p-10 flex items-center justify-center w-full h-[700px] overflow-auto">
 
       <div className="flex items-center gap-5 flex-col md:flex-row w-full">
 

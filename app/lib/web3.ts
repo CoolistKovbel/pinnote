@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import nftJasn from "./nftab.json";
 import tokenAbi from "./tokenAbi.json"
+import { sign } from "crypto";
 
 export const nftSmartContract = "0x62F38d44fB243C3C98B23636074414ED53ecBB1E";
 export const tokenSmartContract = "0x3336debc102ce50a707cf8df8c626ab338d55539";
@@ -110,6 +111,7 @@ export const getContractDetails = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     // Get the signer
     const signer = provider.getSigner();
+    const account = await signer.getAddress()
 
     // Contract main
     const contractInstance = new ethers.Contract(
@@ -121,10 +123,18 @@ export const getContractDetails = async () => {
     const tokenSupply = await contractInstance.callStatic.tokenSupply();
     const tokenSymbol = await contractInstance.callStatic.symbol();
 
+    console.log("checking contract, sad life kill me please. :) " )
+    const acountInLounge = await contractInstance.VIPLounge(account)
+
+
+
     const payload = {
       tokenSupply,
       tokenSymbol,
+      userInLounge: acountInLounge
     };
+
+
 
     return {
       status: "success",

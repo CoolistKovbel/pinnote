@@ -7,8 +7,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useModal } from "../../hooks/use-modal-store";
 import { HandleGroupPinCreate } from "@/app/lib/action";
+import { getContractDetails } from "@/app/lib/web3";
 
-// Maybe absolute
+//  Maybe absolute
 
 const CreateGroupPinModel = () => {
   const { isOpen, onClose, type, signature } = useModal();
@@ -20,6 +21,7 @@ const CreateGroupPinModel = () => {
   const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    
     const message = `
       pin# ${crypto.randomUUID()})}
     `;
@@ -29,6 +31,10 @@ const CreateGroupPinModel = () => {
     const provider = new ethers.providers.Web3Provider(window?.ethereum);
     const signer = provider.getSigner();
     const formData = new FormData(e.currentTarget);
+
+    const blockchainvip = await getContractDetails()
+
+    console.log(blockchainvip, "Does user own NFT")
 
     try {
       const signature = await signer.signMessage(message);
@@ -60,8 +66,6 @@ const CreateGroupPinModel = () => {
 
   };
 
-  
-
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center ${
@@ -78,6 +82,7 @@ const CreateGroupPinModel = () => {
         className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
         <form onSubmit={onSubmit}>
+
           <header className="mb-8">
             <h2 className="text-2xl font-bold mb-4">
               Create a pin for a group{" "}
@@ -135,6 +140,7 @@ const CreateGroupPinModel = () => {
               Close
             </button>
           </div>
+
         </form>
       </dialog>
     </div>
