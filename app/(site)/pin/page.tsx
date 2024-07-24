@@ -6,9 +6,11 @@ import {
 } from "@/app/lib/action";
 
 const Page = async () => {
+
   const user = await getSession();
   const res: any = await HandleGetAllPins();
   const pinGroupValid: any = await userPinGroupCheck();
+
 
   return (
     <main className="w-full min-h-screen bg-[#111] ">
@@ -27,6 +29,7 @@ const Page = async () => {
         pins={JSON.stringify(res)}
         userGroup={JSON.stringify(pinGroupValid)}
       />
+      
     </main>
   );
 };

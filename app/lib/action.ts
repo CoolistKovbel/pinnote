@@ -285,15 +285,18 @@ export const getAllPinGroups = async () => {
 
 export const grabSpecficGroupPins = async (pinGroupId: string) => {
   console.log("pinGrou", pinGroupId);
+
   try {
     await dbConnect();
 
-    const validGroupPins = await GroupPin.find({
-      SelectedGroup: pinGroupId,
-    });
+    if (pinGroupId === undefined) {
+      console.log("there is no pingrou id in the gorp pings spificc");
+      return [];
+    }
 
-    console.log(validGroupPins, "stupif pins stripes");
-    console.log(pinGroupId, "stupif pins");
+    const validGroupPins = await GroupPin.find({});
+
+    console.log("valid", validGroupPins[0].PinRequestor);
 
     return {
       status: "success",
@@ -331,22 +334,17 @@ export const userPinGroupCheck = async () => {
       }
     });
 
-    console.log(pinGroup)
+    console.log("these are the pins the the user has created", PlaYPingGroup);
 
-    const GroupPins = await GroupPin.findById(pinGroup[0]._id)
-
-    console.log(GroupPins, "the pin that is meant for the gorup")
-
+    const payload = {
+      groupUserPart: PlaYPingGroup,
+      theGroups: pinGroup,
+    };
 
     return {
       status: "success",
-      payload: pinGroup,
+      payload: payload,
     };
-
-    // console.log(gorupMembers.flat(), "the current users in  group");
-    // console.log(user.metaAddress, "de user")
-    // console.log(filterdForUser, "the current users in  group");
-    //
   } catch (error) {
     console.log("error trying to see if user in a group", error);
     return {
@@ -478,6 +476,8 @@ export const HandlePinCreate = async (formData: FormData) => {
       description: data.pinDescription,
       pinCreationSigantion: data.signature,
       date: new Date(),
+      hasGroup: true,
+      // pinGroupID: data.
     });
 
     await ping.save();
@@ -519,9 +519,31 @@ export const HandleGetAllPins = async () => {
   }
 };
 
+export const HandleGetAllPinsForUserClient = async (id: Types.ObjectId) => {
+  try {
+    await dbConnect();
+    const allPins = await Pin.find({})
+      .populate("owner")
+      .lean();
+
+    const userPins = allPins.filter((item) => item.owner._id === id )
+
+    console.log(userPins, "All the pin gjberiobgreoiglrwginergbs");
+
+    return {
+      status: "success",
+      payload: allPins,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
+
 // handle group join
-
-
 
 // handle group leave
 

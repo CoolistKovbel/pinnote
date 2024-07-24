@@ -12,6 +12,8 @@ export interface IPin {
 
   status: string;
   votes: any;
+  hasGroup: boolean;
+  pinGroupID: any;
 }
 
 // TODO: Make it better......
@@ -41,6 +43,14 @@ const PinSchema = new mongoose.Schema<IPin>(
       type: String,
       default: "NOTCOMPLETED",
       enum: ["NOTCOMPLETED", "COMPLETED", "INPROGRESS"],
+    },
+    hasGroup: {
+      type: Boolean,
+      default: false
+    },
+    pinGroupID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Pin",
     },
     votes: [
       {

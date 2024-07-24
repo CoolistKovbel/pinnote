@@ -6,7 +6,13 @@ import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-const LoginForm = () => {
+interface LoginFormProps {
+  userAccount: string;
+}
+
+const LoginForm = ({userAccount}: LoginFormProps) => {
+  // TODO: add meta account handle here instead....
+
   const { onOpen } = useModal();
   const router = useRouter();
 
@@ -25,21 +31,31 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const user = await signer.getAddress();
 
-      const message = `You are the current account holder signing today`;
-      const sign = await signer.signMessage(message);
 
-      // Check for user
+      if(window.ethereum){
 
-      const res = await metaLogin(sign as string, user as string);
-
-      if (res.status === "success") {
-        console.log(res);
-        router.push("/profile");
+        const provider = new ethers.providers.Web3Provider(window?.ethereum)
+        const account = await window.ethereum.request({method:"eth_requestAccounts"})
+  
+        const signer = provider.getSigner();
+        // const user = await signer.getAddress();
+  
+        console.log(account)
+  
+        const message = `You are the current account holder signing today`;
+        const sign = await signer.signMessage(message);
+  
+        // Check for user
+  
+        const res = await metaLogin(sign as string, account[0] as string);
+  
+        if (res.status === "success") {
+          console.log(res);
+          router.push("/profile");
+        }
       }
+
     } catch (error) {
       console.log(error);
       toast("error logging in");

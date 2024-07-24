@@ -6,24 +6,34 @@ import { useModal } from "../hooks/use-modal-store";
 import { getContractDetails } from "../lib/web3";
 
 interface ProfileSectionProp {
-  pinGroupValid: any;
+  userPinGroupsDetails: any;
   user: any;
   recentGroupPins: any;
   recentSidePins: any;
   id?: any;
+  groupPins: any;
 }
 
 const ProfileSection = ({
-  pinGroupValid,
+  userPinGroupsDetails,
   user,
   recentGroupPins,
   recentSidePins,
   id,
+  groupPins,
 }: ProfileSectionProp) => {
   const { onOpen } = useModal();
 
-  const pinGroup = JSON.parse(pinGroupValid);
-  const recentCompletedPins = pinGroup.payload[0].completedPins
+  let recentCompletedPins: any = [];
+
+  const pinGroup = JSON.parse(userPinGroupsDetails);
+
+
+    // Completed pins
+  if (pinGroup !== undefined) {
+    console.log("there are pin gorups in the de client");
+    recentCompletedPins = pinGroup?.payload[0]?.completedPins;
+  }
 
   const handleCreateGroup = async () => {
     try {
@@ -38,13 +48,11 @@ const ProfileSection = ({
   const handleCreatePinGroup = async () => {
     try {
       console.log("creating a pin for the group");
-      
-      const gg = await getContractDetails()
-      console.log(gg)
 
+      const gg = await getContractDetails();
+      console.log(gg);
 
       onOpen("CreateGroupPin", user.userId as string);
-
     } catch (error) {
       console.log("Error creating group", error);
     }
@@ -71,14 +79,11 @@ const ProfileSection = ({
     console.log("handling tip");
   };
 
- // ===========================
-  console.log(user, " usergroup ")
-  
-  
+  // ===========================
+
 
   return (
     <section className="p-6 w-full">
-
       <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
         {/* user profile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start md:flex-row">
@@ -167,22 +172,22 @@ const ProfileSection = ({
                 <div className="w-[100px] h-[100px] relative rounded-lg overflow-hidden">
                   <Image
                     src={
-                      pinGroup.payload[0]?.image
-                        ? `${pinGroup.payload[0].image}`
+                      pinGroup.payload.groupUserPart[0]
+                        ? `${pinGroup.payload.groupUserPart[0].image}`
                         : "/3.png"
                     }
-                    alt={pinGroup.payload[0].groupDescription}
+                    alt={pinGroup.payload.groupUserPart[0].groupDescription}
                     fill
                   />
                 </div>
 
                 <div className="flex flex-col gap-4 items-center p-1">
                   <p className="p-2 font-bold rounded text-center">
-                    {pinGroup.payload[0].groupName}
+                    {pinGroup.payload.groupUserPart[0].groupName}
                   </p>
 
                   <Link
-                    href={`/pin/group/${pinGroup.payload[0]._id}`}
+                    href={`/pin/group/${pinGroup.payload.groupUserPart[0]._id}`}
                     className="p-2 bg-[#555] hover:bg-[#333] rounded"
                   >
                     View
@@ -190,6 +195,7 @@ const ProfileSection = ({
                 </div>
               </Link>
             )}
+
             <div className="bg-[#222] p-2 items-center rounded drop-shadow-lg">
               <h2 className="mb-2">Current Pin:</h2>
 
@@ -200,13 +206,15 @@ const ProfileSection = ({
                 View
               </Link>
             </div>
+
           </div>
         </div>
       </header>
 
-      
-      {
-        pinGroup.payload.length === 0 || pinGroup.payload === "" && (
+{/* Make it better */}
+      {pinGroup.payload === undefined ||
+        pinGroup.payload === null ||
+        (pinGroup.payload === "" && (
           <div className="flex flex-col items-center justify-center gap-6">
             <h2 className="text-4xl capitalize">Sorry there are no pins</h2>
             <p className="text-2xl font-bold">Create or join a group</p>
@@ -225,16 +233,38 @@ const ProfileSection = ({
               </button>
             </div>
           </div>
-        )
-      }
-
+        ))}
 
       <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
         <h2 className="text-4xl font-semibold mb-4 underline">
           Recent Group Pins:
         </h2>
 
-        {recentCompletedPins.length === 0 ? (
+        {groupPins.length > 0 ? (
+          <div className="flex gap-4 overflow-x-auto">
+            {groupPins.map((pin: any) => (
+              <div
+                key={pin.pinId}
+                className="bg-[#222] p-4 rounded-lg flex-shrink-0 w-80"
+              >
+                <h3 className="font-bold text-lg">{pin.PinTitle}</h3>
+                <p className="text-sm mt-2">{pin.PinDescription}</p>
+                <div className="mt-4 flex items-center justify-between">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs ${
+                      pin.pinComplete === "completed"
+                        ? "bg-green-600"
+                        : "bg-yellow-600"
+                    }`}
+                  >
+                    {pin.pinComplete}
+                  </span>
+                  <span className="text-sm">Votes: {pin.groupVotes}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
           <div className="flex flex-col items-center justify-center gap-6">
             <h2 className="text-4xl capitalize">Sorry there are no pins</h2>
             <p className="text-2xl font-bold">Create a group pin</p>
@@ -253,31 +283,6 @@ const ProfileSection = ({
                 Create one
               </button>
             </div>
-
-          </div>
-        ) : (
-          <div className="flex gap-4 overflow-x-auto">
-            {recentCompletedPins.map((pin: any) => (
-              <div
-                key={pin.pinId}
-                className="bg-[#222] p-4 rounded-lg flex-shrink-0 w-80"
-              >
-                <h3 className="font-bold text-lg">{pin.pinTitle}</h3>
-                <p className="text-sm mt-2">{pin.pinDescription}</p>
-                <div className="mt-4 flex items-center justify-between">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs ${
-                      pin.pinComplete === "completed"
-                        ? "bg-green-600"
-                        : "bg-yellow-600"
-                    }`}
-                  >
-                    {pin.pinComplete}
-                  </span>
-                  <span className="text-sm">Votes: {pin.groupVotes}</span>
-                </div>
-              </div>
-            ))}
           </div>
         )}
       </article>
@@ -310,7 +315,7 @@ const ProfileSection = ({
           ))}
         </div>
       </article>
-      
+
     </section>
   );
 };
