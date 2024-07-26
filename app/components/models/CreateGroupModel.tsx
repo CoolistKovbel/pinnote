@@ -31,8 +31,6 @@ const CreateGroupModel = () => {
     try {
       const signature = await signer.signMessage(message);
       formData.append("signature", signature);
-
-
       formData.append("userId", fm as string);
       formData.append("groupImage", groupImage as File);
 

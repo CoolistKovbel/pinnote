@@ -24,14 +24,15 @@ const Page = async () => {
   const userPinGroupsDetails: any = await userPinGroupCheck();
   //
   const userGroup = userPinGroupsDetails.payload;
+  const userHasGroup = userGroup.length > 0
   const userId = new mongoose.Types.ObjectId(user.userId)
 
   // Grab pins from servers
   const pinsFromSerer = await HandleGetAllPinsForUserClient(userId)
 
   if (userGroup !== undefined) {
-    groupPins = await grabSpecficGroupPins(userGroup.groupUserPart[0]._id);
-    recentCompletedGroupPins = userGroup?.groupUserPart[0].completedPins;
+    groupPins = await grabSpecficGroupPins(userGroup?.groupUserPart[0]?._id);
+    recentCompletedGroupPins = userGroup?.groupUserPart[0]?.completedPins;
   }
 
   const recentSidePins = [
@@ -86,13 +87,15 @@ const Page = async () => {
   ];
 
 
+  console.log(!Array.isArray(userPinGroupsDetails.payload.groupUserPart), "details")
+
   return (
     <main className="w-full min-h-screen bg-[#111] text-white">
       <header className="p-4 bg-gray-900 flex items-center justify-between">
         <h2 className="text-3xl font-bold">Profile Page</h2>
 
         <nav className="w-[40%] flex items-center justify-around">
-          <GroupNotifactionMessage />
+          <GroupNotifactionMessage data={userHasGroup} />
 
           <Link
             href="/profile/update"
@@ -101,6 +104,7 @@ const Page = async () => {
             Update Profile
           </Link>
         </nav>
+        
       </header>
 
       <ProfileSection

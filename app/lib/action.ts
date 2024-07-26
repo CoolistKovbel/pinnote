@@ -266,7 +266,7 @@ export const getAllPinGroups = async () => {
   try {
     await dbConnect();
 
-    const pinGroups = await PinGroup.find().lean();
+    const pinGroups = await PinGroup.find({});
 
     console.log(pinGroups, "from the server");
 
@@ -358,7 +358,6 @@ export const userPinGroupCheck = async () => {
 export const handleGroupCreate = async (userInpute: FormData) => {
   console.log("Creating a group");
   const data = Object.fromEntries(userInpute);
-
   //
 
   try {
@@ -405,15 +404,39 @@ export const handleGroupCreate = async (userInpute: FormData) => {
 
 // get pinGroup byID
 export const getPinGroupByID = async (pinGroupId: string) => {
-  console.log("pin gorup", pinGroupId);
+  const mut = new Types.ObjectId(pinGroupId);
+  console.log("mut", pinGroupId);
+
   try {
     await dbConnect();
 
-    const pinGroupdetails = await PinGroup.findById(pinGroupId).lean();
+    const pinGroupdetails = await PinGroup.findById(mut).lean();
 
     return {
       status: "success",
       payload: pinGroupdetails,
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
+
+//  get handle gorup pin accept
+export const HandkeAcceptPin = async (userid: string, pinId: string) => {
+  try {
+    await dbConnect();
+
+    const groupFound = await GroupPin.findByIdAndUpdate(pinId, {$push: {groupPins: userid}})
+
+    console.log(groupFound);
+
+
+    return {
+      status: "success",
+      payload: groupFound,
     };
   } catch (error) {
     return {
@@ -522,11 +545,9 @@ export const HandleGetAllPins = async () => {
 export const HandleGetAllPinsForUserClient = async (id: Types.ObjectId) => {
   try {
     await dbConnect();
-    const allPins = await Pin.find({})
-      .populate("owner")
-      .lean();
+    const allPins = await Pin.find({}).populate("owner").lean();
 
-    const userPins = allPins.filter((item) => item.owner._id === id )
+    const userPins = allPins.filter((item) => item.owner._id === id);
 
     console.log(userPins, "All the pin gjberiobgreoiglrwginergbs");
 
@@ -566,6 +587,28 @@ export const HandlePinVote = async (dbId: string, userId: string) => {
     };
   } catch (error) {
     console.log(error);
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
+
+// get pinnote by id
+export const pinnoteByID = async (pinnoteId: string) => {
+  console.log("Pinnote id:", pinnoteId);
+  try {
+    await dbConnect();
+
+    const pinId = await Pin.findById(pinnoteId).lean();
+
+    console.log(pinId, "the pinnote id");
+
+    return {
+      status: "succes",
+      payload: pinId,
+    };
+  } catch (error) {
     return {
       status: "error",
       payload: error,

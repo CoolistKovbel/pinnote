@@ -10,6 +10,7 @@ export interface IPinGroup {
   groupMemebers: any;
   owner: any;
   // -----
+  groupPins: any;
   recentPin: any;
   completedPins: any;
 }
@@ -34,7 +35,13 @@ const PinGroupSchema = new mongoose.Schema<IPinGroup>(
         ref: Pin,
       },
     ],
-    owner:  {
+    groupPins: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Pin,
+      },
+    ],
+    owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: User,
     },

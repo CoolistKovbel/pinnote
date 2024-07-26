@@ -1,11 +1,28 @@
+"use server";
 
+import { HandleGetAllPins } from "@/app/lib/action";
+import { Types } from "mongoose";
+import Image from "next/image";
 
-const PinSection = ({ params }: { params: { id: string }}) => {
+type PinGroupTypes = {
+  payload: any;
+  status: any;
+};
 
-  console.log("pingroup that is from the id", params.id)
+const PinSection = async ({ params }: { params: { id: string } }) => {
+  const pinGroups: PinGroupTypes = await HandleGetAllPins();
+  const mongUserId = new Types.ObjectId(params.id);
+
+  const filteredGroups = pinGroups?.payload.filter((item:any) => item.owner._id === mongUserId);
+
+  console.log(filteredGroups, "fe filtered gorups")
+
+  console.log(mongUserId, "gjnvefrjkbnejkrtbnoetrnob");
+  console.log(pinGroups.payload, "gjnvefrjkbnejkrtbnoetrnob");
 
   return (
     <section className="w-full min-h-screen">
+
       <header className="p-4 bg-[#111]">
         <h2 className="text-4xl font-bold mb-4">PinNote Group</h2>
         <p className="text-md text-gray-500">
@@ -15,7 +32,21 @@ const PinSection = ({ params }: { params: { id: string }}) => {
         </p>
       </header>
 
-      {/* <GroupPin /> */}
+      <div className="w-[60%] mx-auto h-full bg-[#999] p-10 flex items-center flex-col justify-between gap-2">
+        {pinGroups.payload &&
+          pinGroups.payload.map((item: any) => (
+            <div className="bg-[#444] w-full  p-3" key={crypto.randomUUID()}>
+              <div className="w-[100px] h-[100px] relative">
+                <Image src={item.image} alt="image" fill />
+              </div>
+
+              <h2>{item.title}</h2>
+              <h2>{item.description}</h2>
+              <p>Status: {item.status}</p>
+            </div>
+          ))}
+      </div>
+
     </section>
   );
 };

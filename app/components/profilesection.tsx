@@ -28,8 +28,7 @@ const ProfileSection = ({
 
   const pinGroup = JSON.parse(userPinGroupsDetails);
 
-
-    // Completed pins
+  // Completed pins
   if (pinGroup !== undefined) {
     console.log("there are pin gorups in the de client");
     recentCompletedPins = pinGroup?.payload[0]?.completedPins;
@@ -84,6 +83,7 @@ const ProfileSection = ({
 
   return (
     <section className="p-6 w-full">
+
       <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
         {/* user profile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start md:flex-row">
@@ -133,6 +133,7 @@ const ProfileSection = ({
 
         {/* user group profile */}
         <div className="w-full md:w-1/2 mt-6 md:mt-0">
+
           <div className="w-full flex flex-col gap-4">
             <div className="bg-[#222] p-4 rounded-lg">
               <h3 className="flex items-start justify-between flex-col">
@@ -154,7 +155,8 @@ const ProfileSection = ({
           </div>
 
           <div className="mt-4 flex items-center gap-4 w-full justify-between">
-            {pinGroup.payload === null ? (
+            {/* make update here */}
+            { pinGroup.payload.groupUserPart.length === 0  ? (
               <div>
                 <h2>Sorry, no group</h2>
                 <button
@@ -165,35 +167,38 @@ const ProfileSection = ({
                 </button>
               </div>
             ) : (
-              <Link
-                href={`/pin/group/${pinGroup.payload._id}`}
-                className="flex items-center gap-2 bg-[#222] p-2 drop-shadow-lg rounded"
-              >
-                <div className="w-[100px] h-[100px] relative rounded-lg overflow-hidden">
-                  <Image
-                    src={
-                      pinGroup.payload.groupUserPart[0]
-                        ? `${pinGroup.payload.groupUserPart[0].image}`
-                        : "/3.png"
-                    }
-                    alt={pinGroup.payload.groupUserPart[0].groupDescription}
-                    fill
-                  />
-                </div>
+              <div className="flex items-center gap-2 bg-[#222] p-2 drop-shadow-lg rounded">
+                <Link href={`/pin/group/${pinGroup.payload._id}`} className="flex gap-4 ">
 
-                <div className="flex flex-col gap-4 items-center p-1">
-                  <p className="p-2 font-bold rounded text-center">
-                    {pinGroup.payload.groupUserPart[0].groupName}
-                  </p>
+                  <div className="w-[100px] h-[100px] relative rounded-lg overflow-hidden">
+                    <Image
+                      src={
+                        pinGroup?.payload?.groupUserPart[0]
+                          ? `${pinGroup?.payload?.groupUserPart[0]?.image}`
+                          : "/3.png"
+                      }
+                      alt={
+                        pinGroup?.payload?.groupUserPart[0]?.groupDescription
+                      }
+                      fill
+                    />
+                  </div>
 
-                  <Link
-                    href={`/pin/group/${pinGroup.payload.groupUserPart[0]._id}`}
-                    className="p-2 bg-[#555] hover:bg-[#333] rounded"
-                  >
-                    View
-                  </Link>
-                </div>
-              </Link>
+                  <div className="flex flex-col gap-4 items-center p-1">
+                    <p className="p-2 font-bold rounded text-center">
+                      {pinGroup?.payload?.groupUserPart[0]?.groupName}
+                    </p>
+
+                    <Link
+                      href={`/pin/group/${pinGroup?.payload?.groupUserPart[0]?._id}`}
+                      className="p-2 bg-[#555] hover:bg-[#333] rounded"
+                    >
+                      View
+                    </Link>
+                  </div>
+
+                </Link>
+              </div>
             )}
 
             <div className="bg-[#222] p-2 items-center rounded drop-shadow-lg">
@@ -206,18 +211,18 @@ const ProfileSection = ({
                 View
               </Link>
             </div>
-
           </div>
         </div>
       </header>
 
-{/* Make it better */}
+      {/* Make it better */}
       {pinGroup.payload === undefined ||
         pinGroup.payload === null ||
         (pinGroup.payload === "" && (
           <div className="flex flex-col items-center justify-center gap-6">
             <h2 className="text-4xl capitalize">Sorry there are no pins</h2>
             <p className="text-2xl font-bold">Create or join a group</p>
+
             <div className="flex items-center justify-around w-[50%]">
               <Link
                 href="/pin/group"
@@ -232,6 +237,7 @@ const ProfileSection = ({
                 Create one
               </button>
             </div>
+            
           </div>
         ))}
 
@@ -240,7 +246,7 @@ const ProfileSection = ({
           Recent Group Pins:
         </h2>
 
-        {groupPins.length > 0 ? (
+        {groupPins?.length > 0 ? (
           <div className="flex gap-4 overflow-x-auto">
             {groupPins.map((pin: any) => (
               <div
@@ -315,7 +321,6 @@ const ProfileSection = ({
           ))}
         </div>
       </article>
-
     </section>
   );
 };
