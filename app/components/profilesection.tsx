@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+
 import { useModal } from "../hooks/use-modal-store";
 import { getContractDetails } from "../lib/web3";
+
 
 interface ProfileSectionProp {
   userPinGroupsDetails: any;
