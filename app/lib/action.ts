@@ -328,7 +328,7 @@ export const userPinGroupCheck = async () => {
 
     pinGroup.forEach((item) => {
       const userInGroup = item.groupMemebers.some(
-        (member) => member._id.toString() === user.userId
+        (member:any) => member._id.toString() === user.userId
       );
 
       if (userInGroup) {
