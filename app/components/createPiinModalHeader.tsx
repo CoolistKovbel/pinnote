@@ -111,7 +111,7 @@ const CreatePinModelHeader = ({
       //     (item) => item.title.toLowerCase() === searchOptions.toLowerCase()
       //   );
 
-      const searchPin: any = availblePins.filter((item) =>
+      const searchPin: any = availblePins.filter((item:any) =>
         item.title.toLowerCase().includes(searchOptions.toLowerCase())
       );
 
@@ -185,7 +185,7 @@ const CreatePinModelHeader = ({
         {/*  new group highligher belt */}
         <div className="w-full bg-[#111] ">
           <div className="bg-[#999] w-[60%] my-10 mx-auto p-2 flex gap-4 items-center justify-center bg-[#000] p-4 flex-row-reverse  ">
-            {group.theGroups.map((item) => (
+            {group.theGroups.map((item:any) => (
               <div
                 key={crypto.randomUUID()}
                 className="w-[100px] bg-[#222] p-2 relative rounded drop-shadow-lg"
