@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ethers } from "ethers";
 import { login } from "@/app/lib/action";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 type AuthPayload = {
   nameValue: string;
@@ -49,6 +50,8 @@ const AuthUserModel = () => {
 
       if (gg.status === "success") {
         router.push("/profile");
+      } else {
+        toast("Got an error trying to log in please check your input fields")
       }
 
       onClose();
@@ -76,6 +79,7 @@ const AuthUserModel = () => {
         isModalOpen ? "block" : "hidden"
       }`}
     >
+
       <div
         className="fixed inset-0 bg-black opacity-50"
         onClick={onClose}
@@ -85,7 +89,9 @@ const AuthUserModel = () => {
         open={isModalOpen}
         className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
+
         <form onSubmit={onSubmit}>
+
           <h2 className="text-2xl font-bold mb-4">Sign in</h2>
 
           <label className="block mb-2">
@@ -115,8 +121,12 @@ const AuthUserModel = () => {
               Close
             </button>
           </div>
+
         </form>
+
       </dialog>
+
+
     </div>
   );
 };

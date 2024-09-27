@@ -54,6 +54,7 @@ const SinglePinSection = ({ pinGroup, pin, user }: SinglePinSectionProps) => {
 
   return (
     <section>
+
       <header className="p-4 bg-[#111]">
         <h2 className="text-4xl font-bold mb-4">Single PinNote Note</h2>
         <p className="text-md text-gray-500">
@@ -64,6 +65,7 @@ const SinglePinSection = ({ pinGroup, pin, user }: SinglePinSectionProps) => {
       </header>
 
       <article className="relative p-10 flex flex-col gap-10">
+
         <header className="text-5xl">
           <h2>{pin?.title}</h2>
         </header>
@@ -72,8 +74,10 @@ const SinglePinSection = ({ pinGroup, pin, user }: SinglePinSectionProps) => {
           <p>{pin?.description}</p>
         </div>
 
-        <div className="flex items-center justify-between p-5 bg-[#555] rounded drop-shadow-lg">
-          <div className="p-4 bg-[#444] w-[20%] text-center">
+        {/* PreUserRequest */}
+        <div className="flex items-center flex-col  md:flex-row justify-between p-5 bg-[#555] rounded drop-shadow-lg gap-5">
+          {/* Request */}
+          <div className="p-4 bg-[#444] w-full md:w-[20%] text-center">
             <h3 className="text-2xl font-bold">PreReq</h3>
 
             <ul className="p-2 bg-[#444]  text-start ">
@@ -82,7 +86,7 @@ const SinglePinSection = ({ pinGroup, pin, user }: SinglePinSectionProps) => {
               <li className="p-2 rounded bg-[#222] my-2">lemonaid</li>
             </ul>
           </div>
-
+          {/* Group personal */}
           <div className="p-4 flex text-5xl flex-col gap-4 bg-[#444]">
             <button
               className="bg-[#222] p-2  hover:bg-[#111] rounded"
@@ -104,6 +108,7 @@ const SinglePinSection = ({ pinGroup, pin, user }: SinglePinSectionProps) => {
           {pin?.status}
         </p>
       </article>
+
     </section>
   );
 };

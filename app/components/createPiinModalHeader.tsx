@@ -111,7 +111,7 @@ const CreatePinModelHeader = ({
       //     (item) => item.title.toLowerCase() === searchOptions.toLowerCase()
       //   );
 
-      const searchPin: any = availblePins.filter((item:any) =>
+      const searchPin: any = availblePins.filter((item: any) =>
         item.title.toLowerCase().includes(searchOptions.toLowerCase())
       );
 
@@ -124,15 +124,14 @@ const CreatePinModelHeader = ({
   };
 
   const userHasGroup = group.groupUserPart.length > 0;
-  const userGroupPins = group.theGroups > 0;
 
   // ------
   const router = useRouter();
 
   return (
     <>
-      <div className="w-full h-fit gap-10 bg-[#444] flex items-center justify-center flex-col">
-        <div className="w-[80%] flex items-center justify-between my-5 p-4">
+      <header className="w-full h-fit gap-10 p-5 bg-[#444] flex items-center justify-center flex-col">
+        <div className="w-[80%] flex items-center justify-between p-1 flex-col md:flex-row gap-4">
           {user.isLoggedIn && (
             <div className="w-[50%] flex items-center gap-5 ">
               <button
@@ -143,7 +142,7 @@ const CreatePinModelHeader = ({
               </button>
 
               <div>
-                {userGroupPins ? (
+                {userHasGroup ? (
                   <div>
                     <button
                       onClick={CreatgroupPin}
@@ -156,7 +155,7 @@ const CreatePinModelHeader = ({
                   <div>
                     <button
                       onClick={createPinGroup}
-                      className="p-3 bg-[#222] hover:bg-[#555] rounded drop-shadow-lg hover:font-bold text-center"
+                      className="p-3 bg-[#666] hover:bg-[#555] rounded drop-shadow-lg font-bold text-center"
                     >
                       Create PinGroup
                     </button>
@@ -166,67 +165,45 @@ const CreatePinModelHeader = ({
             </div>
           )}
 
-          <input
-            type="text"
-            placeholder="Search pins"
-            className="p-3 bg-[#222] drop-shadow-lg border-4 border-red-500 rounded outline-none"
-            value={searchOptions}
-            onChange={(e) => setSearchOpetions(e.target.value)}
-          />
+          <div className="flex w-full md:w-[23%] items-center justify-between">
+            <input
+              type="text"
+              placeholder="Search pins"
+              className="p-3 bg-[#222] drop-shadow-lg border-4 border-red-500 rounded outline-none"
+              value={searchOptions}
+              onChange={(e) => setSearchOpetions(e.target.value)}
+            />
 
-          <button
-            onClick={handleSearchPin}
-            className="bg-[#555] p-2 font-bold drop-shadow-lg rounded uppercase"
-          >
-            click
-          </button>
-        </div>
-
-        {/*  new group highligher belt */}
-        <div className="w-full bg-[#111] ">
-          <div className="bg-[#999] w-[60%] my-10 mx-auto p-2 flex gap-4 items-center justify-center bg-[#000] p-4 flex-row-reverse  ">
-            {group.theGroups.map((item:any) => (
-              <div
-                key={crypto.randomUUID()}
-                className="w-[100px] bg-[#222] p-2 relative rounded drop-shadow-lg"
-              >
-                <div className="relative w-[42px] h-[42px] ">
-                  <Image src="/3.png" alt="group image" fill />
-                </div>
-                <h2 className="absolute -top-3 -right-3 text-[8px] p-1 bg-[#322] rounded">
-                  <Link href={`/pin/${item._id}`}>{item.groupName}</Link>
-                </h2>
-              </div>
-            ))}
+            <button
+              onClick={handleSearchPin}
+              className="bg-[#555] p-2 font-bold drop-shadow-lg rounded uppercase"
+            >
+              click
+            </button>
           </div>
         </div>
-      </div>
+
+        <div>
+          {userHasGroup && <a href="#">view group</a>}
+          <a href="#">view pins</a>
+        </div>
+      </header>
 
       <section className="w-full flex items-center flex-wrap h-[800px] gap-5 overflow-auto justify-around p-5">
         <div className="flex items-center flex-wrap justify-center w-[80%] bg-[#222] p-10 gap-10">
-          <header className="w-[80%] flex items-center  justify-around  bg-[#444] p-2 drop-shadow-lg">
-            <button
-              onClick={() => router.push(`/pin&pins='"allPins"`)}
-              className="text-[10px] bg-[#555] p-1 drop-shadow-lg rounded font-bold hover:bg-[#333]"
-            >
-              View Pins
-            </button>
-            <button
-              onClick={() => router.push(`/pin&pins='"groupPins"`)}
-              className="text-[10px] bg-[#555] p-1 drop-shadow-lg rounded font-bold hover:bg-[#333]"
-            >
-              Group Pins
-            </button>
-          </header>
-
           {pinsnotes.map((item: any) => (
             <div
               key={crypto.randomUUID()}
-              className="w-[300px] h-[680px] p-2 bg-[#333] drop-shadow-lg rounded flex flex-col items-center justify-between"
+              className="w-[300px] h-[480px] overflow-auto border bg-[#000] drop-shadow-lg rounded flex flex-col items-center justify-between"
             >
-              <header className="p-4">
-                <h2 className="text-3xl text-center">{item?.title}</h2>
-                <p className="text-[15px] p-2">{item?.description}</p>
+              <header className="p-4 bg-[#222]">
+                <h2 className="text-3xl font-bold text-center">
+                  {item?.title}
+                </h2>
+                <hr className="my-5 drop-shadow-lg" />
+                <p className="text-[15px] text-gray-500 p-2">
+                  {item?.description}
+                </p>
               </header>
 
               <div className="flex items-center flex-col md:flex-row flex-wrap w-full h-full  gap-10 bg-[#111] p-2 drop-shadow-lg rounded">
