@@ -6,29 +6,28 @@ import Link from "next/link";
 import { useModal } from "../hooks/use-modal-store";
 import { getContractDetails } from "../lib/web3";
 
-
 interface ProfileSectionProp {
-  userPinGroupsDetails: any;
   user: any;
   recentGroupPins: any;
   recentSidePins: any;
   id?: any;
-  groupPins: any;
+  pinGroupValid: any;
 }
 
 const ProfileSection = ({
-  userPinGroupsDetails,
   user,
   recentGroupPins,
   recentSidePins,
   id,
-  groupPins,
+  pinGroupValid,
 }: ProfileSectionProp) => {
   const { onOpen } = useModal();
 
+  console.log(pinGroupValid, "dont think ping group");
+
   let recentCompletedPins: any = [];
 
-  const pinGroup = JSON.parse(userPinGroupsDetails);
+  const pinGroup = JSON.parse(pinGroupValid) || undefined;
 
   // Completed pins
   if (pinGroup !== undefined) {
@@ -82,10 +81,8 @@ const ProfileSection = ({
 
   // ===========================
 
-
   return (
     <section className="p-6 w-full">
-
       <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
         {/* user profile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start md:flex-row">
@@ -135,7 +132,6 @@ const ProfileSection = ({
 
         {/* user group profile */}
         <div className="w-full md:w-1/2 mt-6 md:mt-0">
-
           <div className="w-full flex flex-col gap-4">
             <div className="bg-[#222] p-4 rounded-lg">
               <h3 className="flex items-start justify-between flex-col">
@@ -158,7 +154,7 @@ const ProfileSection = ({
 
           <div className="mt-4 flex items-center gap-4 w-full justify-between">
             {/* make update here */}
-            { pinGroup.payload.groupUserPart.length === 0  ? (
+            {pinGroup.payload.groupUserPart.length === 0 ? (
               <div>
                 <h2>Sorry, no group</h2>
                 <button
@@ -170,8 +166,10 @@ const ProfileSection = ({
               </div>
             ) : (
               <div className="flex items-center gap-2 bg-[#222] p-2 drop-shadow-lg rounded">
-                <Link href={`/pin/group/${pinGroup.payload._id}`} className="flex gap-4 ">
-
+                <Link
+                  href={`/pin/group/${pinGroup.payload._id}`}
+                  className="flex gap-4 "
+                >
                   <div className="w-[100px] h-[100px] relative rounded-lg overflow-hidden">
                     <Image
                       src={
@@ -198,7 +196,6 @@ const ProfileSection = ({
                       View
                     </Link>
                   </div>
-
                 </Link>
               </div>
             )}
@@ -239,7 +236,6 @@ const ProfileSection = ({
                 Create one
               </button>
             </div>
-            
           </div>
         ))}
 
@@ -248,7 +244,7 @@ const ProfileSection = ({
           Recent Group Pins:
         </h2>
 
-        {groupPins?.length > 0 ? (
+        {/* {groupPins?.length > 0 ? (
           <div className="flex gap-4 overflow-x-auto">
             {groupPins.map((pin: any) => (
               <div
@@ -292,7 +288,7 @@ const ProfileSection = ({
               </button>
             </div>
           </div>
-        )}
+        )} */}
       </article>
 
       <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
