@@ -108,6 +108,7 @@ const Page = async () => {
       </header>
 
       <ProfileSection
+        pinGroupValid={userHasGroup}
         user={user}
         userPinGroupsDetails={JSON.stringify(userPinGroupsDetails)}
         recentGroupPins={recentCompletedGroupPins}

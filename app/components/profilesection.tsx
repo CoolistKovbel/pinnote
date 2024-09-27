@@ -7,6 +7,8 @@ import { useModal } from "../hooks/use-modal-store";
 import { getContractDetails } from "../lib/web3";
 
 interface ProfileSectionProp {
+  userPinGroupsDetails: any;
+  groupPins:any,
   user: any;
   recentGroupPins: any;
   recentSidePins: any;
@@ -15,6 +17,8 @@ interface ProfileSectionProp {
 }
 
 const ProfileSection = ({
+  userPinGroupsDetails,
+  groupPins,
   user,
   recentGroupPins,
   recentSidePins,
