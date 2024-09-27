@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 type AuthPayload = {
   nameValue: string;
   signature: string;
-  username: string;
+  username: string | null;
 }
 
 const AuthUserModel = () => {
