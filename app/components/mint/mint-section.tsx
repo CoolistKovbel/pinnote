@@ -36,16 +36,18 @@ const MintSection = () => {
 
   return (
     <section className="p-10 bg-[#666]">
+
       <h2 className="text-4xl font-bold text-center mb-10 uppercase">
         Get your ERC-721 Now
       </h2>
 
       <div className="flex items-center justify-between w-[80%] mx-auto p-4 flex-col md:flex-row gap-4">
+
         <div className=" w-full md:w-[30%] p-4 flex flex-col gap-5 bg-[#444] drop-shadow-lg rounded">
           <h3 className="w-full flex items-center justify-between bg-[#000] p-2 font-bold">
             PinNote Collection <span>{contractDetails.tokenSymbol}</span>
           </h3>
-          <h3 className="w-full flex items-center justify-between">
+          <h3 className="w-full flex items-start gap-2 justify-between flex-col">
             Token Address:{" "}
             <Link
               href="https://etherscan.io/token/0x3336debc102ce50a707cf8df8c626ab338d55539"
@@ -68,7 +70,7 @@ const MintSection = () => {
         </div>
 
         <form
-          className="md:w-[50%] p-4 flex flex-col gap-4 bg-[#000] drop-shadow-lg rounded"
+          className="md:w-[20%] p-4 flex flex-col gap-4 bg-[#000] drop-shadow-lg rounded"
           onSubmit={handleMint}
         >
           <label htmlFor="amountMinted" className="flex flex-col">
@@ -85,6 +87,7 @@ const MintSection = () => {
 
           <button className="bg-[#222] font-bold rounded p-4">Mint</button>
         </form>
+
       </div>
 
     </section>

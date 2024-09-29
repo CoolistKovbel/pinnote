@@ -7,11 +7,11 @@ import { login } from "@/app/lib/action";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-type AuthPayload = {
+export type AuthPayload = {
   nameValue: string;
   signature: string;
   username: string | null;
-}
+};
 
 const AuthUserModel = () => {
   const { isOpen, onClose, type, signature } = useModal();
@@ -38,20 +38,22 @@ const AuthUserModel = () => {
       const message = `You are the current account holder signing today`;
       const signature = await signer.signMessage(message);
 
-      const payload:AuthPayload = {
+      const payload: AuthPayload = {
         nameValue,
         signature,
         username: fm,
       };
 
       const gg = await login(payload);
-      
+
+      console.log(gg)
+
       router.refresh();
 
       if (gg.status === "success") {
         router.push("/profile");
       } else {
-        toast("Got an error trying to log in please check your input fields")
+        toast("Got an error trying to log in please check your input fields");
       }
 
       onClose();
@@ -89,9 +91,7 @@ const AuthUserModel = () => {
         open={isModalOpen}
         className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
-
         <form onSubmit={onSubmit}>
-
           <h2 className="text-2xl font-bold mb-4">Sign in</h2>
 
           <label className="block mb-2">
@@ -121,9 +121,7 @@ const AuthUserModel = () => {
               Close
             </button>
           </div>
-
         </form>
-
       </dialog>
 
 

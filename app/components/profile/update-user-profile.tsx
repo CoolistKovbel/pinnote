@@ -11,20 +11,20 @@ const UpdateUserProfile = ({ user }: UpdateUserProfileProps) => {
   const [groupImage, setGroupImage] = useState<File | null>(null);
 
   const handleUserUpdate = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log("update user");
 
     const formData: any = new FormData(e.currentTarget);
     const form = e.target as HTMLFormElement;
+
     try {
       formData.append("userImage", groupImage as File);
       formData.append("user", user);
 
       const res = await userUpdate(formData);
 
-    //   TODO: fix  hadne user udaep
+      //   TODO: fix  hadne user udaep
       console.log(res);
-    
 
       form.reset();
     } catch (error) {
@@ -37,6 +37,7 @@ const UpdateUserProfile = ({ user }: UpdateUserProfileProps) => {
       className="flex items-start justify-between flex-col w-full h-fit md:h-[820px] mb-10 p-10 bg-[#222]"
       onSubmit={handleUserUpdate}
     >
+      
       <label
         htmlFor="username"
         className="w-full flex items-center justify-between md:flex-row flex-col gap-4"

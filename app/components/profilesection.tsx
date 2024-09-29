@@ -79,11 +79,12 @@ const ProfileSection = ({
   };
 
   // ===========================
+  const userPinGroup = false
 
   return (
     <section className="p-6 w-full">
 
-      <header className="w-[80%] mx-auto flex flex-wrap items-center justify-between">
+      <header className="w-[80%] my-10 mx-auto flex flex-wrap items-center justify-between">
 
 
         {/* user profile */}
@@ -162,14 +163,24 @@ const ProfileSection = ({
 
       {/* Make it better */}
 
+      {
+        userPinGroup ? (
+          <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
+            <h2 className="text-4xl font-semibold mb-4 underline">
+              Recent Group Pins:
+            </h2>
 
-      <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
-        <h2 className="text-4xl font-semibold mb-4 underline">
-          Recent Group Pins:
-        </h2>
+
+          </article>
+        ) : (
+          <div className="flex items-center flex-col gap-4 p-4 bg-[#555] drop-shadow-lg">
+            <h2 className="text-2xl font-bold">Seems like your not part of any group...</h2>
+            <a href="/pin/group" className="bg-[#555] hover:bg-[firebrick] font-bold uppercase drop-shadow-lg p-2">look for one</a>
+          </div>
+        )
+      }
 
 
-      </article>
 
       <article className="mt-10 bg-[#444] p-4 rounded drop-shadow-lg">
         <h2 className="text-4xl font-semibold mb-4 underline">

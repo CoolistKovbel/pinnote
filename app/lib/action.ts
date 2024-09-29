@@ -13,8 +13,10 @@ import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { Pin } from "../modals/Pin";
 import { GroupPin } from "../modals/GroupPins";
+import { AuthPayload } from "../components/models/AuthUserModel";
 
-const hadleImageUpload = async (image: any) => {
+const hadleImageUpload = async (image: File) => {
+  
   const fileBuffer = await (image as File).arrayBuffer();
   const buffer = Buffer.from(fileBuffer);
 
@@ -70,9 +72,8 @@ export const logout = async () => {
   redirect("/");
 };
 
-export const login = async (payload: any) => {
-  // const resst: any = JSON.parse(payload);
-  const resst: any = payload;
+export const login = async (payload: AuthPayload) => {
+  const resst = payload;
 
   try {
     const currentSession = await getSession();
@@ -80,11 +81,16 @@ export const login = async (payload: any) => {
     await dbConnect();
 
     const userExists: any = await User.find({
-      metaAddress: resst.nameValue,
+      sig: resst.signature,
     }).lean();
 
-    if (userExists.length > 0 && userExists.sig === resst.signature) {
-      console.log("user found");
+    console.log({
+      userAD: userExists,
+      resst: resst,
+    });
+
+    // Setup userf account
+    if (userExists[0].sig === resst.signature) {
       // if user exist sign user in
       currentSession.isLoggedIn = true;
       currentSession.username = userExists[0].username as string;
@@ -96,11 +102,6 @@ export const login = async (payload: any) => {
       currentSession.metaAddress = userExists[0].metaAddress;
 
       await currentSession.save();
-
-      return {
-        status: "success",
-        payload: "",
-      };
     } else {
       console.log("new user creating", resst.nameValue);
       // register user with account information
@@ -122,16 +123,14 @@ export const login = async (payload: any) => {
       await currentSession.save();
 
       await create.save();
-
-      return {
-        status: "success",
-        payload: create,
-      };
     }
 
+    revalidatePath("/login");
 
-
-
+    return {
+      status: "success",
+      payload: "",
+    };
   } catch (error) {
     console.log("error signing in", error);
     return {
@@ -146,11 +145,10 @@ export const metaLogin = async (signature: string, user: string) => {
   try {
     await dbConnect();
 
-    console.log("handling metaLogin");
+    const userServer: any = await User.find({ sig: signature }).lean();
 
-    const userServer = await User.find({ sig: signature }).lean();
-
-    if (userServer.length > 0) {
+    // Setup userf account
+    if (userServer[0].sig === signature) {
       currentSession.isLoggedIn = true;
       currentSession.username = userServer[0].username as string;
       currentSession.image = userServer[0].image;
@@ -179,12 +177,9 @@ export const metaLogin = async (signature: string, user: string) => {
       currentSession.userId = create._id;
 
       await currentSession.save();
-
-      return {
-        status: "success",
-        payload: create,
-      };
     }
+
+    revalidatePath("/login");
 
     return {
       status: "success",
@@ -200,7 +195,6 @@ export const metaLogin = async (signature: string, user: string) => {
 };
 
 export const userUpdate = async (formData: FormData) => {
-  console.log("handleUserUpdate");
   const data: any = Object.fromEntries(formData);
   const currentUser = await getSession();
 
@@ -209,21 +203,35 @@ export const userUpdate = async (formData: FormData) => {
 
     const currentServerUser = await User.findById(currentUser.userId).lean();
 
-    const userUpload = await hadleImageUpload(data.userImage);
+    console.log(currentServerUser, "the cirrent user");
+    console.log(data, "the data user");
+
+    let userUpload = "";
+
+    if (data.userImage !== "null") {
+      userUpload = await hadleImageUpload(data.userImage);
+    }
 
     const payloader = {
       username: data.username || currentServerUser?.username,
       email: data.email || currentServerUser?.email,
       description: data.description || currentServerUser?.description,
       image: userUpload || currentServerUser?.image,
-      preference: data.userPreference || currentServerUser?.preference,
+      preference:
+        data.userPreference === "---"
+          ? currentServerUser?.preference
+          : data.userPreference,
     };
+
+    console.log(payloader, "the data object");
 
     await User.findByIdAndUpdate(currentServerUser?._id, payloader);
 
+    let userImage = userUpload || currentUser.image;
+
     currentUser.username = data.username || currentUser.username;
     currentUser.email = data.email || currentUser.email;
-    currentUser.image = userUpload || currentUser.image;
+    currentUser.image = userImage || "";
     //  currentUser.metaAddress =
 
     await currentUser.save();
@@ -328,7 +336,7 @@ export const userPinGroupCheck = async () => {
 
     pinGroup.forEach((item) => {
       const userInGroup = item.groupMemebers.some(
-        (member:any) => member._id.toString() === user.userId
+        (member: any) => member._id.toString() === user.userId
       );
 
       if (userInGroup) {
@@ -432,10 +440,11 @@ export const HandkeAcceptPin = async (userid: string, pinId: string) => {
   try {
     await dbConnect();
 
-    const groupFound = await GroupPin.findByIdAndUpdate(pinId, {$push: {groupPins: userid}})
+    const groupFound = await GroupPin.findByIdAndUpdate(pinId, {
+      $push: { groupPins: userid },
+    });
 
     console.log(groupFound);
-
 
     return {
       status: "success",

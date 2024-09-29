@@ -84,10 +84,6 @@ const Page = async () => {
     },
   ];
 
-  console.log(
-    !Array.isArray(userPinGroupsDetails.payload.groupUserPart),
-    "details"
-  );
 
   return (
     <main className="w-full min-h-screen bg-[#111] text-white">
