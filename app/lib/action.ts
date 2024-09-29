@@ -16,7 +16,7 @@ import { GroupPin } from "../modals/GroupPins";
 import { AuthPayload } from "../components/models/AuthUserModel";
 
 const hadleImageUpload = async (image: File) => {
-  
+
   const fileBuffer = await (image as File).arrayBuffer();
   const buffer = Buffer.from(fileBuffer);
 
@@ -373,7 +373,7 @@ export const handleGroupCreate = async (userInpute: FormData) => {
 
   try {
     await dbConnect();
-    const deImage = await hadleImageUpload(data.groupImage);
+    const deImage = await hadleImageUpload(data.groupImage as File);
 
     const newGroup = new PinGroup({
       groupName: data.groupName,
